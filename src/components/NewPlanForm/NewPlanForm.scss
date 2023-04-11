@@ -1,0 +1,114 @@
+@use "../../styles/partials/variables" as *;
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/typography" as *;
+
+.new-plan-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+
+  &__title {
+    @include pageHeaderText;
+    margin-bottom: 2rem;
+    color: $Orange;
+    text-align: center;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    @include tablet {
+      padding: 2.5rem;
+    }
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
+    width: 100%;
+    @include desktop {
+      width: 80%;
+    }
+  }
+
+  &__label {
+    display: flex;
+    flex-direction: column;
+    @include bodyLargeText;
+    margin-bottom: 1rem;
+    color: $Silver;
+    width: 100%;
+    @include tablet {
+      align-items: flex-start;
+    }
+    @include desktop {
+      margin-right: 2rem;
+    }
+  }
+
+  &__input,
+  &__select {
+    background-color: $Mercury;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    width: 100%;
+    @include bodyMediumText;
+    margin-bottom: 2rem;
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px $Orange;
+    }
+
+    @include tablet {
+      height: 2.5rem;
+    }
+
+    @include desktop {
+      padding: 0.7rem;
+    }
+  }
+
+  &__submit-button {
+    @include labelButtonsText;
+    align-self: center;
+    width: 100%;
+    padding: 0.8rem 1.5rem;
+    margin: 2rem 0;
+    text-transform: uppercase;
+    color: $Navy;
+    background-color: $Purple;
+    border: none;
+    border-radius: 1.5625rem;
+    cursor: pointer;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+    &:active {
+      background-color: #33ac76;
+      transform: translateY(-1px);
+      box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+    }
+    &:hover {
+      background-color: #3e8e41;
+      color: $Silver;
+      transform: translateY(3px);
+      box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.3);
+    }
+    @include tablet {
+      padding: 1.5rem 2.5rem;
+      width: fit-content;
+    }
+  }
+}
+
+.last-sentence {
+  color: $White;
+  text-align: center;
+  align-self: center;
+}

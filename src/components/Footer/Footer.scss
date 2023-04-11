@@ -1,0 +1,51 @@
+@use "../../styles/partials/variables" as *;
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/typography" as *;
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: $Black;
+  color: $White;
+  padding: 1rem;
+  width: 100%;
+  @include tablet {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2.5rem;
+  }
+  @include desktop {
+    padding: 1rem 6rem;
+  }
+
+  &__info {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__designer,
+  &__date {
+    margin: 0;
+    @include bodyMediumText;
+    color: $Orange;
+  }
+
+  &__rights {
+    margin-top: 10px;
+    @include bodySmallText;
+    text-align: center;
+
+    a {
+      color: $Orange;
+
+      &:hover {
+        color: $DarkOrange;
+      }
+    }
+  }
+}

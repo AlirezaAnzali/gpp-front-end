@@ -1,0 +1,197 @@
+@use "../../styles/partials/variables" as *;
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/typography" as *;
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  @include desktop {
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+
+  &__left {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 100%);
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    overflow: hidden;
+    @include tablet {
+      border-radius: 0;
+    }
+    @include desktop {
+      background: linear-gradient(to left, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 100%);
+      width: 30%;
+    }
+  }
+
+  &__user {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+    flex-direction: column;
+    @include tablet {
+      margin-bottom: 2rem;
+      flex-direction: row;
+    }
+    @include desktop {
+      flex-direction: column;
+    }
+  }
+
+  &__image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+    border-radius: 50%;
+    overflow: hidden;
+    @include tablet {
+      width: 50%;
+    }
+  }
+
+  &__picture {
+    width: 100%;
+    object-fit: cover;
+    filter: brightness(1.2) saturate(1.3);
+    transition: all 0.3s ease-in-out;
+    &:hover {
+      filter: brightness(1.1) saturate(1.2) blur(2px);
+    }
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    @include tablet {
+      width: 50%;
+      align-items: flex-start;
+      padding-left: 3rem;
+    }
+    @include desktop {
+      width: 100%;
+      align-items: center;
+      padding-left: 0;
+    }
+  }
+
+  &__name {
+    margin-bottom: 1rem;
+    @include pageHeaderText;
+  }
+
+  &__email {
+    margin-bottom: .5rem;
+    color:$Navy;
+    @include bodyLargeText;
+    @include tablet {
+      font-weight: bold;
+    }
+  }
+
+  &__gender {
+    color:$Navy;
+    margin-bottom: .5rem;
+    @include bodyLargeText;
+        @include tablet {
+      font-weight: bold;
+    }
+  }
+
+  &__age {
+    color:$Navy;
+    margin-bottom: .5rem;
+    @include bodyLargeText;
+        @include tablet {
+      font-weight: bold;
+    }
+  }
+
+  &__actions {
+    display: flex;
+  }
+
+  &__right {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: space-between;
+    flex-grow: 1;
+    @include desktop {
+      flex-direction: column;
+    }
+  }
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  background-color: $LightBlack;
+  margin: auto;
+
+  h2 {
+    @include pageHeaderText;
+    margin-bottom: 2rem;
+    color: $Orange;
+    text-align: center;
+  }
+
+  label {
+    display: flex;
+    flex-direction: column;
+    @include labelButtonsText;
+    margin-bottom: 1.5rem;
+    color: $Silver;
+    width: 100%;
+
+    @include tablet {
+      align-items: flex-start;
+    }
+    @include desktop {
+        margin-right: 2rem;
+    }
+  }
+
+  input,
+  select {
+    background-color: $Mercury;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    width: 100%;
+    @include bodyMediumText;
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px $Orange;
+    }
+
+    @include tablet {
+      width: 100%;
+      height: 2.5rem;
+    }
+  }
+}
+
+// .profile__left > :first-child {
+//   width: calc(100% - 2rem); /* Set width to match your form */
+//   max-width: 500px; /* Set a max-width to prevent the Modal from getting too large on larger screens */
+//   padding: 1rem;
+//   position: fixed;
+//   top: 50%; /* Center vertically */
+//   left: 50%; /* Center horizontally */
+//   transform: translate(-50%, -50%);
+//   max-height: 80vh;
+//   overflow-y: auto;
+// }
+
+

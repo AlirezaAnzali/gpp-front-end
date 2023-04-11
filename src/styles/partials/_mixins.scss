@@ -1,0 +1,88 @@
+@use "./variables" as *;
+@use "./typography" as *;
+
+@mixin tablet {
+    @media screen and (min-width: $tablet-breakpoint) {
+        @content;
+    }
+}
+
+@mixin desktop {
+    @media screen and (min-width: $desktop-breakpoint) {
+        @content;
+    }
+}
+
+@mixin reset-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@mixin reset-link {
+    text-decoration: none;
+    color:inherit;
+}
+
+
+@mixin setFontSizeWeightLineHeight($font-size, $font-weight, $line-height) {
+	font-size: $font-size;
+	line-height: $line-height;
+	font-weight: $font-weight;
+}
+
+@mixin pageHeaderText() {
+	@include setFontSizeWeightLineHeight(28px, 600, 36px);
+
+	@include tablet() {
+		@include setFontSizeWeightLineHeight(36px, 600, 40px);
+	}
+}
+
+@mixin subHeaderText() {
+	@include setFontSizeWeightLineHeight(20px, 600, 28px);
+
+	@include tablet() {
+		@include setFontSizeWeightLineHeight(24px, 600, 32px);
+	}
+}
+
+@mixin labelButtonsText() {
+	@include setFontSizeWeightLineHeight(13px, 600, 20px);
+
+	@include tablet() {
+		@include setFontSizeWeightLineHeight(14px, 600, 22px);
+	}
+}
+
+@mixin tableHeaderText() {
+	@include setFontSizeWeightLineHeight(11px, 600, 16px);
+
+	@include tablet() {
+		@include setFontSizeWeightLineHeight(12px, 600, 18px);
+	}
+}
+
+@mixin bodyLargeText() {
+	@include setFontSizeWeightLineHeight(15px, 400, 26px);
+
+	@include tablet() {
+		@include setFontSizeWeightLineHeight(16px, 400, 28px);
+	}
+}
+
+@mixin bodyMediumText() {
+	@include setFontSizeWeightLineHeight(13px, 400, 20px);
+
+	@include tablet() {
+		@include setFontSizeWeightLineHeight(14px, 400, 22px);
+	}
+}
+
+@mixin bodySmallText() {
+	@include setFontSizeWeightLineHeight(11px, 400, 16px);
+
+	@include tablet() {
+		@include setFontSizeWeightLineHeight(12px, 400, 18px);
+	}
+}

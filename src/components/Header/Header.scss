@@ -1,0 +1,63 @@
+@use "../../styles/partials/variables" as *;
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/typography" as *;
+
+.header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: $Black;
+  color: $White;
+  padding: 1rem;
+  width: 100%;
+  @include tablet {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2.5rem;
+  }
+  @include desktop {
+    padding: 1rem 6rem;
+  }
+
+  &__logo__link {
+    @include reset-link;
+  }
+
+  &__logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    @include reset-link;
+    @include tablet {
+        width: fit-content;
+    }
+  }
+
+  &__logo {
+    height: 2rem;
+    margin-right: 1rem;
+  }
+
+  &__app-name {
+    @include subHeaderText;
+    color: $Orange;
+    @include tablet {
+        margin: 0;
+    }
+  }
+
+  &__right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    @include tablet {
+      flex-direction: row;
+      width: fit-content;
+    }
+  }
+}

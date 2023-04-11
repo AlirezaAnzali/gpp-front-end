@@ -1,0 +1,21 @@
+@use "../../styles/partials/variables" as *;
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/typography" as *;
+
+.cards {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  padding: 1rem;
+  background-color: $Navy;
+  @include tablet {
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 1rem 2.5rem;
+  }
+  @include desktop {
+    padding: 1rem 6rem;
+  }
+
+}

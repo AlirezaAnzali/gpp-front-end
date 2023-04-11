@@ -1,0 +1,57 @@
+@use "../../styles/partials/variables" as *;
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/typography" as *;
+
+
+.new-plan-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+}
+
+.new-plan-link {
+    @include reset-link;
+}
+
+
+
+.generate-plan-btn {
+@include labelButtonsText;
+width: 100%;
+padding: 0.8rem 1.5rem;
+margin: 2rem;
+text-transform: uppercase;
+color:$Navy;
+background-color: $Purple;
+border: none;
+border-radius: 1.5625rem;
+cursor: pointer;
+box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+transition: all 0.3s ease-in-out;
+@include tablet {
+  padding: 1.5rem 2.5rem;
+  width: fit-content;
+}
+}
+
+.generate-plan-btn:hover {
+background-color: #3e8e41;
+color: $Silver;
+transform: translateY(3px);
+box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+.generate-plan-btn:active {
+background-color: #33ac76;
+transform: translateY(-1px);
+box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+.button-text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: .5rem;
+  width: 100%;
+}
