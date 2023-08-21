@@ -2,138 +2,387 @@
 @use "../../styles/partials/mixins" as *;
 @use "../../styles/partials/typography" as *;
 
-
 .workout {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2rem;
-  background-color: $Silver;
 
-  &__title {
-    font-size: 2rem;
-    color: $DarkOrange;
-    margin-bottom: 1rem;
-    text-transform: uppercase;
-  }
-
-  &__goal,
-  &__weight {
-    font-size: 1rem;
-    color: $Navy;
-    margin-bottom: 1rem;
-  }
-
-  .dayExercises {
+  &__top {
+    position: relative;
+    height: 20rem;
+    width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    margin-bottom: 2rem;
-    width: 100%;
+    justify-content: center;
+    align-items: center;
 
-    &__header {
-      font-size: 1.5rem;
-      color: $Navy;
-      margin-bottom: 1rem;
-      justify-content: flex-start;
-      text-transform: capitalize;
+    @include tablet {
+      height: 14.5rem;
     }
 
-    &__table {
+    @include desktop {
+      height: 18.75rem;
+    }
+
+    &__image {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
-      border-collapse: collapse;
+      height: 100%;
+      background-image: url("../../assets/images/workoutPlanPage.jpeg");
+      background-position: top;
+      background-size: cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      @include tablet {
+        padding: 1rem 2.5rem;
+      }
+      @include desktop {
+        padding: 1rem 6rem;
+      }
+    }
 
-      &Head {
-        background-color: $Navy;
-        color: $Orange;
+    &__content {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      // align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      background-color: rgba($color: $LightBlack, $alpha: 0.7);
+
+      @include tablet {
+        padding: 1rem 2.5rem;
+        flex-direction: row;
+        justify-content: space-between;
+      }
+      @include desktop {
+        justify-content: space-evenly;
       }
 
-      &Header {
-        font-size: .5rem;
-        color: $Orange;
-        padding: .5rem;
-        text-align: left;
-      }
-
-      &Row {
-        font-size: 0.9rem;
-        color: $Black;
-
-        &:nth-child(even) {
-          background-color: $Mercury;
+      &__top {
+        display: flex;
+        flex-direction: column;
+        @include desktop {
+          width: 66%;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+          flex-grow: 1;
         }
 
-        &__name {
-          color: $Navy;
-          font-weight: bold;
-        }
-
-        &__checkbox {
+        &__title {
           display: flex;
           justify-content: center;
           align-items: center;
+          @include tablet {
+            padding-top: 1rem;
+          }
+          @include desktop {
+            width: 50%;
+            justify-content: start;
+            padding-top: 0;
+          }
+          &__text {
+            @include pageHeaderText;
+            text-transform: capitalize;
+            margin: 0;
+            color: $Orange;
+          }
         }
 
-        &__checkboxInput {
-          margin-right: 0.5rem;
-        }
+        &__progress {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin: 1rem 0 0 0;
+          width: 100%;
+          @include desktop {
+            width: 50%;
+            margin: 0;
+            padding: 0 2rem;
+          }
 
-        &__setsReps {
-          text-align: center;
+          &-title {
+            @include labelButtonsText;
+            color: $Silver;
+            margin-bottom: 0.5rem;
+            @include tablet {
+              margin: 0;
+              display: none;
+            }
+            @include desktop {
+              display: flex;
+            }
+          }
+
+          &-bar {
+            width: 100%;
+            height: 1rem;
+            margin-bottom: 0.5rem;
+
+            @include tablet {
+              height: 1.5rem;
+            }
+
+            &::-webkit-progress-bar {
+              background-color: $Silver;
+              border-radius: 0.5rem;
+            }
+
+            &::-webkit-progress-value {
+              background-color: $Orange;
+              border-radius: 0.5rem;
+            }
+
+            &::-moz-progress-bar {
+              background-color: $Orange;
+              border-radius: 0.5rem;
+            }
+
+            &::-ms-fill {
+              background-color: $Orange;
+              border-radius: 0.5rem;
+            }
+
+            &::-ms-fill-upper {
+              background-color: $Orange;
+              border-radius: 0.5rem;
+            }
+
+            &::-ms-fill-lower {
+              background-color: $Orange;
+              border-radius: 0.5rem;
+            }
+
+            &::-ms-fill-progress {
+              background-color: $Orange;
+              border-radius: 0.5rem;
+            }
+          }
+
+          &-label {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: $Orange;
+          }
+        }
+      }
+      &__text {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 1rem;
+        @include tablet {
+          margin-top: 0;
+          align-items: flex-end;
+          justify-content: center;
+        }
+        @include desktop {
+          width: 33%;
+        }
+        &__goal {
+          @include bodyLargeText;
+          color: $Silver;
+          margin: 0;
+        }
+        &__weight {
+          @include bodyLargeText;
+          color: $Silver;
+          margin: 0;
         }
       }
     }
   }
-
-  @include tablet {
-    padding: 4rem;
-
-    &__title {
-      font-size: 3rem;
+  &__bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    background-color: $Navy;
+    padding: 1rem;
+    @include tablet {
+      padding: 1rem 2.5rem;
+      align-items: flex-start;
     }
-
-    &__goal,
-    &__weight {
-      font-size: 1.5rem;
-    }
-
-    .dayExercises {
-      &__header {
-        font-size: 2rem;
-      }
-
-      &__table {
-        &Header,
-        &Row {
-          font-size: .9rem;
-        }
-      }
-    }
-  }
-
-  @include desktop {
-    padding: 6rem;
-
-    &__title {
-      font-size: 4rem;
-    }
-
-    &__goal,
-    &__weight {
-      font-size: 2rem;
-    }
-
-    .dayExercises {
-      &__header {
-        font-size: 3rem;
-      }
-
-      &__table {
-        &Header,
-        &Row {
-          font-size: 1.5rem;
-        }
-      }
+    @include desktop {
+      padding: 1rem 6rem;
     }
   }
 }
+
+.dayExercises__title {
+  color: $Orange;
+  text-transform: capitalize;
+}
+
+.list {
+  ul:nth-child(odd) {
+    background-color: $Mercury;
+  }
+
+  ul:nth-child(even) {
+    background-color:$White;
+  }
+
+  ul:nth-child(odd) > li + li {
+    border-top:solid 1px $Mercury;
+  }
+  
+  ul:nth-child(even) > li + li {
+    border-top:solid 1px $White;
+  }
+
+  ul {
+    list-style:none;
+    margin:1rem 0;
+    padding:.5em 1em;
+  }
+  
+  ul:first-child {
+    display:none;
+  }
+  
+  ul > li {
+    display:block;
+    padding:.25em 0;
+  }
+  
+  ul > li:before {
+    color:$LightBlack;
+    content:attr(data-label);
+    display:inline-block;
+    font-size:75%;
+    font-weight:bold;
+    text-transform:capitalize;
+    vertical-align:top;
+    width:40%;
+  }
+  
+  p {
+    margin:-1em 0 0 50%;
+  }
+
+  @include tablet {
+    display:table;
+    margin:1em 0;
+
+    ul {
+      display:table-row;
+    }
+
+    ul:first-child {
+      display:table-row;
+    }
+    
+    ul:first-child li {
+      background-color:$LightBlack;
+      color:$White;
+      border-top: .0625rem solid $Silver;
+    }
+    
+    ul > li {
+      display:table-cell;
+      padding:.5em 1em;
+    }
+
+    ul > li:before {
+      display: none;
+    }
+
+    ul:first-child li:first-child {
+      border-left: .0625rem solid $Silver;
+    }
+
+    ul:first-child li:last-child {
+      border-right: .0625rem solid $Silver;
+    }
+  }
+}
+
+
+// /* big */
+// @media screen and (min-width:600px) {
+  
+//   .list {
+//     display:table;
+//     margin:1em 0;
+//   }
+ 
+//   .list ul {
+//     display:table-row;
+//   }
+  
+//   .list ul:first-child li {
+//     background-color:$Navy;
+//     color:$White;
+//   }
+  
+//   .list ul > li {
+//     display:table-cell;
+//     padding:.5em 1em;
+//   }
+  
+// }
+
+// /* small */
+// @media screen and (max-width:599px) {
+  
+//   .list ul {
+//     border:solid 1px $Mercury;
+//     display:block;
+//     list-style:none;
+//     margin:1rem 0;
+//     padding:.5em 1em;
+//     width: 100%;
+//   }
+  
+//   .list ul:first-child {
+//     display:none;
+//   }
+  
+//   .list ul > li {
+//     display:block;
+//     padding:.25em 0;
+//   }
+  
+//   .list ul:nth-child(odd) > li + li {
+//     border-top:solid 1px $Mercury;
+//   }
+  
+//   .list ul:nth-child(even) > li + li {
+//     border-top:solid 1px $White;
+//   }
+  
+//   .list ul > li:before {
+//     color:$Black;
+//     content:attr(data-label);
+//     display:inline-block;
+//     font-size:75%;
+//     font-weight:bold;
+//     text-transform:capitalize;
+//     vertical-align:top;
+//     width:50%;
+//   }
+  
+//   .list p {
+//     margin:-1em 0 0 50%;
+//   }
+  
+// }
+
+/* tiny */
+// @media screen and (max-width:349px) {
+    
+//   .list ul > li:before {
+//     display:block;
+//   }
+  
+//   .list p {
+//     margin:0;
+//   }
+  
+// }

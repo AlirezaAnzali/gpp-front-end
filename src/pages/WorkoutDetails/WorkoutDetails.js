@@ -10,7 +10,16 @@ import "./WorkoutDetails.scss";
 function WorkoutDetails() {
   const location = useLocation();
   const workout = location.state ? location.state.workout : null;
-  console.log(workout);
+  // console.log(workout);
+
+  // Calculate total exercises count across all weeks
+  const totalExercisesCount =
+    workout.exercises.reduce((total, day) => total + day.exercises.length, 0) *
+    workout.weeks; // Multiply by the number of weeks
+
+  // State to keep track of checked exercises
+  const [checkedExercises, setCheckedExercises] = useState(new Set());
+
   // const [exercises, setExercises] = useState([]);
 
   // useEffect(() => {
@@ -29,98 +38,130 @@ function WorkoutDetails() {
   //     });
   // }, []);
 
-  const [checkedExercises, setCheckedExercises] = useState([]);
+  // Handler for checkbox change
+  function handleCheckboxChange(exerciseId, weekIndex) {
+    setCheckedExercises((prevCheckedExercises) => {
+      const updatedCheckedExercises = new Set(prevCheckedExercises);
 
-  // Helper function to handle exercise completion
-  function handleExerciseCompletion(exerciseId, weekIndex) {
-    const updatedCheckedExercises = [...checkedExercises];
-    if (updatedCheckedExercises[weekIndex]) {
-      updatedCheckedExercises[weekIndex][exerciseId] =
-        !updatedCheckedExercises[weekIndex][exerciseId];
-    } else {
-      updatedCheckedExercises[weekIndex] = { [exerciseId]: true };
-    }
-    setCheckedExercises(updatedCheckedExercises);
+      // Create a unique key for exercise-week combination
+      const key = `${exerciseId}-${weekIndex}`;
+
+      if (updatedCheckedExercises.has(key)) {
+        updatedCheckedExercises.delete(key);
+      } else {
+        updatedCheckedExercises.add(key);
+      }
+      return updatedCheckedExercises;
+    });
   }
 
-  // Render exercise row with checkboxes
-  function renderExerciseRow(exercise, weekIndex) {
-    const exerciseId = exercise.id;
-    const isChecked =
-      checkedExercises[weekIndex] && checkedExercises[weekIndex][exerciseId];
+  // Calculate progress ratio
+  const checkedExercisesCount = checkedExercises.size;
+  const progressRatio = Math.round(
+    (checkedExercisesCount / totalExercisesCount) * 100
+  );
+
+  // Render exercise list with checkboxes
+  function renderExerciseRow(exercise) {
     return (
-      <tr key={exerciseId} className="exerciseRow">
-        <td className="exerciseRow__name">{exercise.name}</td>
-        <td className="exerciseRow__muscles">{exercise.muscles}</td>
-        <td className="exerciseRow__muscleTarget">{exercise.muscleTarget}</td>
-        <td className="exerciseRow__setsReps">
+      <ul key={exercise.id} className="exercise">
+        <li data-label="Exercise" className="exercise__name">
+          {exercise.name}
+        </li>
+        <li data-label="Muscle" className="exercise__muscle">
+          {exercise.muscles}
+        </li>
+        <li data-label="Target Muscles" className="exercise__target">
+          {exercise.muscleTarget}
+        </li>
+        <li data-label="Sets X Reps" className="exercise__set">
           {exercise.sets} X {exercise.reps}
-        </td>
-        {[...Array(workout.weeks)].map((_, i) => (
-          <td key={i} className="exerciseRow__checkbox">
+        </li>
+        {[...Array(workout.weeks)].map((_, k) => (
+          <li key={k} className="exercise__check" data-label={`Week ${k + 1}`}>
             <input
               type="checkbox"
-              checked={isChecked && checkedExercises[i][exerciseId]}
-              onChange={() => handleExerciseCompletion(exerciseId, i)}
-              className="exerciseRow__checkboxInput"
+              className="exercise__checkbox"
+              checked={checkedExercises.has(`${exercise.id}-${k}`)}
+              onChange={() => handleCheckboxChange(exercise.id, k)}
             />
-            <label className="exerciseRow__checkboxLabel"></label>
-          </td>
+            <label className="exercise__checkbox__label"></label>
+          </li>
         ))}
-      </tr>
+      </ul>
     );
   }
 
-  // Render day sub-header with exercise table
-  function renderDayExercises(day, i) {
+  // Render day sub-header with exercise lists
+  function renderDayExercises(day, j) {
     return (
       <div key={day.dayName} className="dayExercises">
-        <h2 className="dayExercises__header">{day.dayName}</h2>
-        <table className="dayExercises__table">
-          <thead>
-            <tr className="dayExercises__tableHead">
-              <th className="dayExercises__tableHeader">Exercise</th>
-              <th className="dayExercises__tableHeader">Muscles</th>
-              <th className="dayExercises__tableHeader">Muscle Target</th>
-              <th className="dayExercises__tableHeader">Sets X Reps</th>
-              {[...Array(workout.weeks)].map((_, i) => (
-                <th key={i} className="dayExercises__tableHeader">
-                  Week {i + 1}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {day.exercises.map((exercise) => renderExerciseRow(exercise, i))}
-          </tbody>
-        </table>
+        <h2 className="dayExercises__title">{day.dayName}</h2>
+        <div className="list">
+          <ul className="dayExercises__header">
+            <li className="dayExercises__header__name">Exercise</li>
+            <li className="dayExercises__header__muscle">Muscle</li>
+            <li className="dayExercises__header__target">Target Muscles</li>
+            <li className="dayExercises__header__set">Sets X Reps</li>
+            {[...Array(workout.weeks)].map((_, i) => (
+              <li
+                key={i}
+                className={`dayExercises__header__checkbox checkbox-${i + 1}`}
+              >
+                Week {i + 1}
+              </li>
+            ))}
+          </ul>
+          {day.exercises.map((exercise) => renderExerciseRow(exercise, j))}
+        </div>
       </div>
     );
   }
 
-  // Calculate progress ratio
-const allExercises = workout.exercises.flatMap((day) => day.exercises);
-const totalExercisesCount = allExercises.length * workout.weeks;
-const checkedExercisesCount = checkedExercises.reduce(
-  (acc, curr) => acc + Object.keys(curr || {}).length,
-  0
-);
-const progressRatio = checkedExercisesCount / totalExercisesCount || 0;
-
   // Render component
   return (
     <div className="workout">
-      <h1 className="workout__title">{workout.planName}</h1>
-      <p className="workout__goal">Your Goal: {workout.goal}</p>
-      <p className="workout__weight">Your Weight: {workout.weight}</p>
-      <label htmlFor="progress">Progress:</label>
-      <progress
-        id="progress"
-        max={totalExercisesCount}
-        value={checkedExercisesCount}
-      />
-      <div className="progress-label">{Math.round(progressRatio * 100)}%</div>
-      {workout.exercises.map((day, i) => renderDayExercises(day, i))}
+      <div className="workout__top">
+        <div className="workout__top__image">
+          <div className="workout__top__content">
+            <div className="workout__top__content__top">
+              <div className="workout__top__content__top__title">
+                <h1 className="workout__top__content__top__title__text">
+                  {workout.planName}
+                </h1>
+              </div>
+              <div className="workout__top__content__top__progress">
+                <label
+                  className="workout__top__content__top__progress-title"
+                  htmlFor="progress"
+                >
+                  Progress:
+                </label>
+                <progress
+                  className="workout__top__content__top__progress-bar"
+                  id="progress"
+                  max={totalExercisesCount}
+                  value={checkedExercisesCount}
+                />
+                <div className="workout__top__content__top__progress-label">
+                  {progressRatio} %
+                </div>
+              </div>
+            </div>
+            <div className="workout__top__content__text">
+              <p className="workout__top__content__text__goal">
+                Your Goal: {workout.goal}
+              </p>
+              <p className="workout__top__content__text__weight">
+                Your Weight: {workout.weight} kg
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="workout__bottom">
+        {workout.exercises.map((day, i) => renderDayExercises(day, i))}
+      </div>
     </div>
   );
 }
