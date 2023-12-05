@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "./WorkoutPlans.scss";
 
 function WorkoutPlans({ userInfo }) {
@@ -64,8 +65,12 @@ function WorkoutPlans({ userInfo }) {
                       <br />
                       {startDate} - {endDate}
                     </div>
-                  </div>
-                  <div className="workout-view">
+                    <div className="workout-progress">
+                      <CircularProgressbar
+                        value={workout.progress}
+                        text={`${workout.progress}%`}
+                      />
+                    </div>
                   </div>
                 </li>
               );
