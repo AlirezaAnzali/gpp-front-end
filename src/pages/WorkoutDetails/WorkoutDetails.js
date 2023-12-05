@@ -1,26 +1,18 @@
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-// import axios from "axios";
+import axios from "axios";
 
 import "./WorkoutDetails.scss";
 
-// const baseUrl = "http://localhost:8080";
+const baseUrl = "http://localhost:8080";
 // const exercisesUrl = `${baseUrl}/exercises`;
+const workoutsUrl = `${baseUrl}/workouts`;
 
 function WorkoutDetails() {
   const location = useLocation();
-  const workout = location.state ? location.state.workout : null;
-  // console.log(workout);
-
-  // Calculate total exercises count across all weeks
-  const totalExercisesCount =
-    workout.exercises.reduce((total, day) => total + day.exercises.length, 0) *
-    workout.weeks; // Multiply by the number of weeks
-
-  // State to keep track of checked exercises
-  const [checkedExercises, setCheckedExercises] = useState(new Set());
-
-  // const [exercises, setExercises] = useState([]);
+  const [workout, setWorkout] = useState(
+    location.state ? location.state.workout : null
+  );
 
   // useEffect(() => {
   //   const token = sessionStorage.getItem("token");
@@ -40,26 +32,23 @@ function WorkoutDetails() {
 
   // Handler for checkbox change
   function handleCheckboxChange(exerciseId, weekIndex) {
-    setCheckedExercises((prevCheckedExercises) => {
-      const updatedCheckedExercises = new Set(prevCheckedExercises);
-
-      // Create a unique key for exercise-week combination
-      const key = `${exerciseId}-${weekIndex}`;
-
-      if (updatedCheckedExercises.has(key)) {
-        updatedCheckedExercises.delete(key);
-      } else {
-        updatedCheckedExercises.add(key);
-      }
-      return updatedCheckedExercises;
-    });
+    // Send a POST request to update checkedExercises on the server
+    axios
+      .post(`${workoutsUrl}/${workout.id}/updateCheckedExercises`, {
+        exerciseId,
+        weekIndex,
+        checked: !workout.checkedExercises.includes(
+          `${exerciseId}-${weekIndex}`
+        ),
+      })
+      .then((response) => {
+        const updatedWorkout = response.data.workoutPlan;
+        setWorkout(updatedWorkout); // Update the component state
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
-
-  // Calculate progress ratio
-  const checkedExercisesCount = checkedExercises.size;
-  const progressRatio = Math.round(
-    (checkedExercisesCount / totalExercisesCount) * 100
-  );
 
   // Render exercise list with checkboxes
   function renderExerciseRow(exercise) {
@@ -82,7 +71,7 @@ function WorkoutDetails() {
             <input
               type="checkbox"
               className="exercise__checkbox"
-              checked={checkedExercises.has(`${exercise.id}-${k}`)}
+              checked={workout.checkedExercises.includes(`${exercise.id}-${k}`)}
               onChange={() => handleCheckboxChange(exercise.id, k)}
             />
             <label className="exercise__checkbox__label"></label>
@@ -140,11 +129,13 @@ function WorkoutDetails() {
                 <progress
                   className="workout__top__content__top__progress-bar"
                   id="progress"
-                  max={totalExercisesCount}
-                  value={checkedExercisesCount}
+                  max={
+                    workout.allExercises.length * workout.weeks
+                  }
+                  value={workout.checkedExercises.length}
                 />
                 <div className="workout__top__content__top__progress-label">
-                  {progressRatio} %
+                  {workout.progress} %
                 </div>
               </div>
             </div>
