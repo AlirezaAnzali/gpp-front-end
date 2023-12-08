@@ -1,0 +1,40 @@
+@use "../../styles/partials/variables" as *;
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/typography" as *;
+
+.exercise-detail {
+  background-color: $Mercury;
+  border: 1px solid $LightBlack;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: 1rem;
+  color: $Black;
+
+  .exercise-detail-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    @include subHeaderText;
+
+    h2 {
+      margin: 0;
+      color: $Black;
+    }
+  }
+
+  .exercise-detail-content {
+    color: $LightBlack;
+    p {
+      margin: 1rem 0;
+    }
+
+    strong {
+      font-weight: bold;
+    }
+  }
+  .button-container {
+    text-align: center;
+    margin-top: 1rem;
+  }
+}
+

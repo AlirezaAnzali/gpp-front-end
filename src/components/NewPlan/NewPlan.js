@@ -16,14 +16,14 @@ function NewPlan({ userInfo }) {
   return (
     <div className="new-plan-container">
       <button onClick={onGetANewWorkout} className="generate-plan-btn">
-        <div class="button-text">
+        <div className="button-text">
           <svg
             stroke="currentColor"
             fill="none"
-            stroke-width="1.5"
+            strokeWidth="1.5"
             viewBox="0 0 24 24"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeLinecap="round"
+            strokeLinejoin="round"
             class="h-3 w-3"
             height="1em"
             width="1em"

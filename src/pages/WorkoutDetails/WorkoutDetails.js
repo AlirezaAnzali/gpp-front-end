@@ -1,11 +1,15 @@
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
+import ExerciseModal from "../../components/ExerciseModal/ExerciseModal";
+import ExerciseDetail from "../../components/ExerciseDetail/ExerciseDetail";
+import ExerciseSelection from "../../components/ExerciseSelection/ExerciseSelection";
+import ExerciseConfirmation from "../../components/ExerciseConfirmation/ExerciseConfirmation";
 import axios from "axios";
 
 import "./WorkoutDetails.scss";
 
 const baseUrl = "http://localhost:8080";
-// const exercisesUrl = `${baseUrl}/exercises`;
+const exercisesUrl = `${baseUrl}/exercises`;
 const workoutsUrl = `${baseUrl}/workouts`;
 
 function WorkoutDetails() {
@@ -14,21 +18,92 @@ function WorkoutDetails() {
     location.state ? location.state.workout : null
   );
 
-  // useEffect(() => {
-  //   const token = sessionStorage.getItem("token");
-  //   axios
-  //     .get(exercisesUrl, {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     })
-  //     .then((response) => {
-  //       setExercises(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.error(error);
-  //     });
-  // }, []);
+  const [exercises, setExercises] = useState(null);
+
+  const [exerciseModalIsVisible, setExerciseModalIsVisible] = useState(false);
+  const [selectionModalIsVisible, setSelectionModalIsVisible] = useState(false);
+  const [confirmationModalIsVisible, setConfirmationModalIsVisible] =
+    useState(false);
+
+  const [selectedExercise, setSelectedExercise] = useState(null);
+  const [newExercise, setNewExercise] = useState(null);
+
+  function showExerciseModalHandler(exercise) {
+    setSelectedExercise(exercise);
+    setExerciseModalIsVisible(true);
+  }
+
+  function hideExerciseModalHandler() {
+    setExerciseModalIsVisible(false);
+  }
+  
+  function showSelectionModalHandler(exercise) {
+    setSelectedExercise(exercise);
+    setSelectionModalIsVisible(true);
+  }
+
+  function hideSelectionModalHandler(event) {
+    setSelectionModalIsVisible(false);
+  }
+
+  function showConfirmationModalHandler(exercise) {
+    setConfirmationModalIsVisible(true);
+  }
+
+  function hideConfirmationModalHandler(event) {
+    setConfirmationModalIsVisible(false);
+  }
+
+  function newExerciseSelection (event) {
+    setExerciseModalIsVisible(false);
+    setSelectionModalIsVisible(true);
+  }
+
+  function handleExerciseSelection(newExercise) {
+    setSelectionModalIsVisible(false);
+    setNewExercise(newExercise);
+    setConfirmationModalIsVisible(true);
+  }
+
+  function handleExerciseConfirmation(confirmedExercise) {
+    setConfirmationModalIsVisible(false);
+
+    axios
+      .put(`${workoutsUrl}/${workout.id}/changeAnExercise`, {
+        confirmedExercise,
+        selectedExercise,
+      })
+      .then((response) => {
+        const updatedWorkout = response.data.workoutPlan;
+        setWorkout(updatedWorkout); // Update the component state
+        alert(response.data.message);
+      })
+      .catch((error) => {
+        console.error(error);
+        alert("An error occurred while updating the workout plan.");
+      });
+
+
+    setNewExercise(null);
+    setSelectedExercise(null);
+  }
+
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    axios
+      .get(exercisesUrl, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        setExercises(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
 
   // Handler for checkbox change
   function handleCheckboxChange(exerciseId, weekIndex) {
@@ -54,7 +129,11 @@ function WorkoutDetails() {
   function renderExerciseRow(exercise) {
     return (
       <ul key={exercise.id} className="exercise">
-        <li data-label="Exercise" className="exercise__name">
+        <li
+          data-label="Exercise"
+          className="exercise__name"
+          onClick={() => showExerciseModalHandler(exercise)}
+        >
           {exercise.name}
         </li>
         <li data-label="Muscle" className="exercise__muscle">
@@ -109,51 +188,77 @@ function WorkoutDetails() {
 
   // Render component
   return (
-    <div className="workout">
-      <div className="workout__top">
-        <div className="workout__top__image">
-          <div className="workout__top__content">
-            <div className="workout__top__content__top">
-              <div className="workout__top__content__top__title">
-                <h1 className="workout__top__content__top__title__text">
-                  {workout.planName}
-                </h1>
-              </div>
-              <div className="workout__top__content__top__progress">
-                <label
-                  className="workout__top__content__top__progress-title"
-                  htmlFor="progress"
-                >
-                  Progress:
-                </label>
-                <progress
-                  className="workout__top__content__top__progress-bar"
-                  id="progress"
-                  max={
-                    workout.allExercises.length * workout.weeks
-                  }
-                  value={workout.checkedExercises.length}
-                />
-                <div className="workout__top__content__top__progress-label">
-                  {workout.progress} %
+    <>
+      {exerciseModalIsVisible && (
+        <ExerciseModal onClose={hideExerciseModalHandler}>
+          <ExerciseDetail
+            exercise={selectedExercise}
+            onEdit={newExerciseSelection}
+          />
+        </ExerciseModal>
+      )}
+      {selectionModalIsVisible && (
+        <ExerciseModal onClose={hideSelectionModalHandler}>
+          <ExerciseSelection
+            exercises={exercises}
+            onSelect={handleExerciseSelection}
+            selectedExercise={selectedExercise}
+          />
+        </ExerciseModal>
+      )}
+      {confirmationModalIsVisible && (
+        <ExerciseModal onClose={hideConfirmationModalHandler}>
+          <ExerciseConfirmation
+            onConfirm={handleExerciseConfirmation}
+            onClose={hideConfirmationModalHandler}
+            newExercise={newExercise}
+          />
+        </ExerciseModal>
+      )}
+      <div className="workout">
+        <div className="workout__top">
+          <div className="workout__top__image">
+            <div className="workout__top__content">
+              <div className="workout__top__content__top">
+                <div className="workout__top__content__top__title">
+                  <h1 className="workout__top__content__top__title__text">
+                    {workout.planName}
+                  </h1>
+                </div>
+                <div className="workout__top__content__top__progress">
+                  <label
+                    className="workout__top__content__top__progress-title"
+                    htmlFor="progress"
+                  >
+                    Progress:
+                  </label>
+                  <progress
+                    className="workout__top__content__top__progress-bar"
+                    id="progress"
+                    max={workout.allExercises.length * workout.weeks}
+                    value={workout.checkedExercises.length}
+                  />
+                  <div className="workout__top__content__top__progress-label">
+                    {workout.progress} %
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="workout__top__content__text">
-              <p className="workout__top__content__text__goal">
-                Your Goal: {workout.goal}
-              </p>
-              <p className="workout__top__content__text__weight">
-                Your Weight: {workout.weight} kg
-              </p>
+              <div className="workout__top__content__text">
+                <p className="workout__top__content__text__goal">
+                  Your Goal: {workout.goal}
+                </p>
+                <p className="workout__top__content__text__weight">
+                  Your Weight: {workout.weight} kg
+                </p>
+              </div>
             </div>
           </div>
         </div>
+        <div className="workout__bottom">
+          {workout.exercises.map((day, i) => renderDayExercises(day, i))}
+        </div>
       </div>
-      <div className="workout__bottom">
-        {workout.exercises.map((day, i) => renderDayExercises(day, i))}
-      </div>
-    </div>
+    </>
   );
 }
 

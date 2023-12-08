@@ -35,7 +35,7 @@ const Header = ({ handleSignInClick, isLoggedIn, setIsLoggedIn }) => {
       });
   };
 
-  console.log(isLoggedIn);
+  // console.log(isLoggedIn);
 
   return (
     <header className="header">

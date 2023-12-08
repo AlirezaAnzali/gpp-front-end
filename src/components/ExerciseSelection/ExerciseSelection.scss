@@ -1,0 +1,43 @@
+// ExerciseSelection.scss
+
+@use "../../styles/partials/variables" as *;
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/typography" as *;
+
+.exercise-selection {
+  background-color: $Mercury;
+  border: 1px solid $Black;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: 1rem;
+  color: $Black;
+  max-height: 90vh;
+  overflow-y: auto;
+
+  h2 {
+    margin-bottom: 10px;
+    color: $Black;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+
+    div {
+      margin-bottom: 10px;
+
+      input {
+        margin-right: 5px;
+      }
+    }
+
+    button {
+      margin-top: 10px;
+    }
+  }
+    .button-container {
+    text-align: center;
+    margin-top: 1rem;
+  }
+}
+
