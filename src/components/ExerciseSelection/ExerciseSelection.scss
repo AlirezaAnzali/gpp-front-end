@@ -35,9 +35,14 @@
       margin-top: 10px;
     }
   }
-    .button-container {
+  .button-container {
     text-align: center;
     margin-top: 1rem;
   }
-}
 
+  .validation-error {
+    color: Red;
+    font-weight: bold;
+    margin-top: 0.5rem;
+  }
+}

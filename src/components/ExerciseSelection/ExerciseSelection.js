@@ -6,6 +6,7 @@ function ExerciseSelection({
   onSelect,
   selectedExercise
 }) {
+  const [validationError, setValidationError] = useState(null); // State for validation error
   // Filter exercises based on the selected exercise's muscles property
   const filteredExercises = exercises.filter(
     (exercise) =>
@@ -13,20 +14,28 @@ function ExerciseSelection({
       exercise.id !== selectedExercise.id
   );
 
-  const [selectedId, setSelectedId] = useState(selectedExercise.id);
+  const [selectedId, setSelectedId] = useState(null);
 
   const handleRadioChange = (event) => {
     setSelectedId(event.target.value);
   };
 
   const handleSelectClick = () => {
+    if (!selectedId) {
+      setValidationError("Please select an exercise before clicking 'Select'.");
+      return;
+    }
+
+    // Reset validation error
+    setValidationError(null);
+
     const newExercise = exercises.find((exercise) => exercise.id === selectedId);
     onSelect(newExercise);
   };
 
   return (
     <div className="exercise-selection">
-      <h2>Select Another Exercise</h2>
+      <h2>Select Another {selectedExercise.muscles} Exercise</h2>
       <form>
         {filteredExercises.map((exercise) => (
           <div key={exercise.id}>
@@ -42,6 +51,9 @@ function ExerciseSelection({
           </div>
         ))}
         <div className="button-container">
+          {validationError && (
+            <p className="validation-error">{validationError}</p>
+          )}
           <button className="btn" type="button" onClick={handleSelectClick}>
             Select
           </button>

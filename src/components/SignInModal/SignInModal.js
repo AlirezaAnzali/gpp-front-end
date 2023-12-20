@@ -31,6 +31,19 @@ function SignInModal({ handleCloseModal, setIsLoggedIn }) {
         console.log(response.data);
         alert("You signed up successfully!");
         setIsSignedUp(true);
+        // Perform login after successful signup
+        axios
+          .post(loginUrl, { email, password })
+          .then((loginResponse) => {
+            console.log(loginResponse.data);
+            const token = loginResponse.data.token;
+            sessionStorage.setItem("token", token);
+            setIsLoggedIn(true);
+            navigate("/user-profile");
+          })
+          .catch((loginError) => {
+            alert(loginError.response.data.error.message);
+          });
       })
       .catch((error) => {
         console.error(error);

@@ -21,7 +21,7 @@ function ExerciseDetail ({ exercise, onEdit }){
         </div>
         <div className="button-container">
           <button className="btn edit-btn" onClick={onEdit}>
-            Edit
+            Change Exercise
           </button>
         </div>
       </div>
