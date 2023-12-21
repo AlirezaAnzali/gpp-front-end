@@ -37,12 +37,30 @@ function NewPlanForm() {
     setWeight(e.target.value);
   };
 
+  const isFormValid = () => {
+    // Basic form validation logic
+    return (
+      planName.trim() !== "" &&
+      goal.trim() !== "" &&
+      (goal !== "gain-muscle" || muscleFocus.trim() !== "") &&
+      workoutDays >= 3 &&
+      workoutDays <= 5 &&
+      weight >= 40
+    );
+  };
+
   const userId = location.state.id;
   const userName = location.state.name;
 
   const handleSubmit = (e) => {
     const weightInKg = weightUnit === "lb" ? weight / 2.20462 : weight;
     e.preventDefault();
+    if (!isFormValid()) {
+      alert(
+        "Please fill in all required fields and ensure values are within the specified ranges."
+      );
+      return;
+    }
     const token = sessionStorage.getItem("token");
     axios
       .post(
@@ -103,7 +121,7 @@ function NewPlanForm() {
           <label className="new-plan-form__label">
             Choose your weight unit:
           </label>
-          <label>
+          <label className="new-plan-form__label">
             <input
               type="radio"
               value="kg"
@@ -112,7 +130,7 @@ function NewPlanForm() {
             />
             Kilograms (kg)
           </label>
-          <label>
+          <label className="new-plan-form__label">
             <input
               type="radio"
               value="lb"

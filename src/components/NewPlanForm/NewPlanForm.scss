@@ -6,7 +6,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1rem;
+  padding: 2rem;
 
   &__title {
     @include pageHeaderText;
@@ -21,65 +21,61 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    @include tablet {
-      padding: 2.5rem;
-    }
   }
 
   &__field {
     display: flex;
     flex-direction: column;
-    margin-bottom: 16px;
+    margin-bottom: 1.5rem;
     width: 100%;
-    @include desktop {
-      width: 80%;
-    }
   }
 
   &__label {
-    display: flex;
-    flex-direction: column;
     @include bodyLargeText;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     color: $Silver;
     width: 100%;
-    @include tablet {
-      align-items: flex-start;
-    }
-    @include desktop {
-      margin-right: 2rem;
-    }
   }
 
   &__input,
   &__select {
     background-color: $Mercury;
-    padding: 0.5rem;
+    padding: 0.75rem;
     border: none;
     border-radius: 0.5rem;
     width: 100%;
     @include bodyMediumText;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
 
     &:focus {
       outline: none;
       box-shadow: 0 0 0 3px $Orange;
     }
+  }
 
-    @include tablet {
-      height: 2.5rem;
-    }
+  &__select {
+    appearance: none;
+    background-position: right center;
+    background-repeat: no-repeat;
+    background-size: 1.5rem; // Adjust as needed
+    padding-right: 2rem; // Ensure space for the arrow icon
+  }
 
-    @include desktop {
-      padding: 0.7rem;
-    }
+  &__radio-group {
+    display: flex;
+    align-items: center;
+    gap: 1rem; // Adjust as needed for spacing between radio buttons and labels
+  }
+
+  input[type="radio"] {
+    margin-right: 0.25rem; // Adjust as needed for spacing
   }
 
   &__submit-button {
     @include labelButtonsText;
     align-self: center;
     width: 100%;
-    padding: 0.8rem 1.5rem;
+    padding: 1rem;
     margin: 2rem 0;
     text-transform: uppercase;
     color: $Navy;
@@ -89,20 +85,24 @@
     cursor: pointer;
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease-in-out;
+
     &:active {
       background-color: #33ac76;
       transform: translateY(-1px);
       box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
     }
+
     &:hover {
       background-color: #3e8e41;
       color: $Silver;
       transform: translateY(3px);
       box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.3);
     }
+
     @include tablet {
       padding: 1.5rem 2.5rem;
       width: fit-content;
+      width: -moz-fit-content;
     }
   }
 }
@@ -112,3 +112,5 @@
   text-align: center;
   align-self: center;
 }
+
+

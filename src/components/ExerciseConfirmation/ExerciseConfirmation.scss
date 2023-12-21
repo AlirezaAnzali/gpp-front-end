@@ -40,6 +40,10 @@
         border: 1px solid $Navy;
         border-radius: 0.25rem;
         flex-grow: 1;
+        &:focus {
+          outline: none;
+          box-shadow: 0 0 0 3px $Orange;
+        }
       }
     }
     .validation-error {
