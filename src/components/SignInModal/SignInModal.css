@@ -1,0 +1,26 @@
+@font-face {
+  font-family: "Avenir";
+  src: url(../../assets/fonts/AvenirNextLTPro-Regular.otf) format("OpenType"), url(../../assets/fonts/Alternative/AvenirNextLTPro.ttf) format("TrueType");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Avenir";
+  src: url(../../assets/fonts/AvenirNextLTPro-Bold.otf) format("OpenType"), url(../../assets/fonts/Alternative/AvenirNextLTProBold.ttf) format("TrueType");
+  font-weight: 700;
+  font-style: normal;
+}
+.exit-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  border: none;
+  font-size: 0.75rem;
+  cursor: pointer;
+  color: #000000;
+  z-index: 10;
+}
+.exit-button:hover {
+  color: #FFFFFF;
+}/*# sourceMappingURL=SignInModal.css.map */

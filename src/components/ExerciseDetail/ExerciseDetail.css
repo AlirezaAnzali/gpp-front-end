@@ -1,0 +1,52 @@
+@font-face {
+  font-family: "Avenir";
+  src: url(../../assets/fonts/AvenirNextLTPro-Regular.otf) format("OpenType"), url(../../assets/fonts/Alternative/AvenirNextLTPro.ttf) format("TrueType");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Avenir";
+  src: url(../../assets/fonts/AvenirNextLTPro-Bold.otf) format("OpenType"), url(../../assets/fonts/Alternative/AvenirNextLTProBold.ttf) format("TrueType");
+  font-weight: 700;
+  font-style: normal;
+}
+.exercise-detail {
+  background-color: #E1E1E1;
+  border: 1px solid #4b4b4b;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: 1rem;
+  color: #000000;
+}
+.exercise-detail .exercise-detail-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 600;
+}
+@media screen and (min-width: 48rem) {
+  .exercise-detail .exercise-detail-header {
+    font-size: 24px;
+    line-height: 32px;
+    font-weight: 600;
+  }
+}
+.exercise-detail .exercise-detail-header h2 {
+  margin: 0;
+  color: #000000;
+}
+.exercise-detail .exercise-detail-content {
+  color: #4b4b4b;
+}
+.exercise-detail .exercise-detail-content p {
+  margin: 1rem 0;
+}
+.exercise-detail .exercise-detail-content strong {
+  font-weight: bold;
+}
+.exercise-detail .button-container {
+  text-align: center;
+  margin-top: 1rem;
+}/*# sourceMappingURL=ExerciseDetail.css.map */

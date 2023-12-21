@@ -1,0 +1,32 @@
+@font-face {
+  font-family: "Avenir";
+  src: url(../../assets/fonts/AvenirNextLTPro-Regular.otf) format("OpenType"), url(../../assets/fonts/Alternative/AvenirNextLTPro.ttf) format("TrueType");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Avenir";
+  src: url(../../assets/fonts/AvenirNextLTPro-Bold.otf) format("OpenType"), url(../../assets/fonts/Alternative/AvenirNextLTProBold.ttf) format("TrueType");
+  font-weight: 700;
+  font-style: normal;
+}
+.cards {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  padding: 1rem;
+  background-color: #14213d;
+}
+@media screen and (min-width: 48rem) {
+  .cards {
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 1rem 2.5rem;
+  }
+}
+@media screen and (min-width: 80rem) {
+  .cards {
+    padding: 1rem 6rem;
+  }
+}/*# sourceMappingURL=Cards.css.map */
