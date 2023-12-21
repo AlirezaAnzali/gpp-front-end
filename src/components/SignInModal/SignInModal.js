@@ -69,7 +69,6 @@ function SignInModal({ handleCloseModal, setIsLoggedIn }) {
         password,
       })
       .then((response) => {
-        console.log(response.data);
         const token = response.data.token;
         sessionStorage.setItem("token", token);
         setIsLoggedIn(true);

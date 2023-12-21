@@ -15,7 +15,6 @@ const profileUrl = `${baseUrl}/profile`;
 
 function Profile({ isLoggedIn }) {
 
-  console.log(isLoggedIn);
   useEffect(() => {
     Modal.setAppElement("#root");
   }, []);

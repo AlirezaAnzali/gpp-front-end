@@ -30,8 +30,8 @@ function WorkoutPlans({ userInfo }) {
     if (workouts.length === 0) {
       return (
         <div className="no-workouts">
-          You have no workout plan yet. Get your first workout plan today,{" "}
-          {userInfo.name}!
+          You have no workout plan yet {userInfo.name}. Get your first workout
+          plan today!
         </div>
       );
     } else {
@@ -55,15 +55,15 @@ function WorkoutPlans({ userInfo }) {
                   <div className="workout-info">
                     <div className="workout-name">{workout.planName}</div>
                     <div className="workout-goal">
-                      Your goal:
+                      <span>Goal</span>
                       <br />
                       {workout.goal}
                     </div>
                     <br />
                     <div className="workout-date">
-                      Date:
+                      <span>Start Date</span>
                       <br />
-                      {startDate} - {endDate}
+                      {startDate}
                     </div>
                     <div className="workout-progress">
                       <CircularProgressbar
