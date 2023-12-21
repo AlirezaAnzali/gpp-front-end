@@ -13,7 +13,6 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
-import { ModalProvider } from "react-modal-hook";
 import { useState } from 'react';
 
 function App() {
@@ -32,7 +31,6 @@ function App() {
 
   return (
     <Router>
-      <ModalProvider>
         {showSignInModal && !isLoggedIn && (
           <div className="overlay" onClick={handleCloseModal}></div>
         )}
@@ -70,7 +68,6 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />
-      </ModalProvider>
     </Router>
   );
 }

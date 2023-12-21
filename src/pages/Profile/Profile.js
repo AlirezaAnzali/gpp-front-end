@@ -4,10 +4,11 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import men from "../../assets/images/men.jpg";
 import women from "../../assets/images/women.png"
-import Modal from "react-modal";
 import none from "../../assets/images/general.svg";
 import NewPlan from "../../components/NewPlan/NewPlan";
 import WorkoutPlans from "../../components/WorkoutPlans/WorkoutPlans";
+import ProfileModalForm from "../../components/ProfileModalForm/ProfileModalForm";
+import ExerciseModal from "../../components/ExerciseModal/ExerciseModal";
 
 
 const baseUrl = "http://localhost:8080";
@@ -15,17 +16,18 @@ const profileUrl = `${baseUrl}/profile`;
 
 function Profile({ isLoggedIn }) {
 
-  useEffect(() => {
-    Modal.setAppElement("#root");
-  }, []);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState({});
-  const [isModalOpen, setIsModalOpen] = useState(
-    userInfo.age === null || userInfo.gender === null
-  );
-  const [userAge, setUserAge] = useState("");
-  const [userGender, setUserGender] = useState("");
+  const [exerciseModalIsVisible, setExerciseModalIsVisible] = useState(false);
+
+  function showExerciseModalHandler(exercise) {
+    setExerciseModalIsVisible(true);
+  }
+
+  function hideExerciseModalHandler() {
+    setExerciseModalIsVisible(false);
+  }
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
@@ -48,9 +50,7 @@ function Profile({ isLoggedIn }) {
 
   useEffect(() => {
     if (userInfo.age === null || userInfo.gender === null) {
-      setIsModalOpen(true);
-    } else {
-      setIsModalOpen(false);
+      showExerciseModalHandler();
     }
   }, [userInfo]);
 
@@ -67,21 +67,12 @@ function Profile({ isLoggedIn }) {
     });
   };
 
-  const handleAgeChange = (event) => {
-    setUserAge(event.target.value);
-  };
-
-  const handleGenderChange = (event) => {
-    setUserGender(event.target.value);
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleModalSubmit = ({ age, gender }) => {
     const token = sessionStorage.getItem("token");
     axios
       .put(
         profileUrl,
-        { age: userAge, gender: userGender },
+        { age, gender },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -89,8 +80,8 @@ function Profile({ isLoggedIn }) {
         }
       )
       .then(() => {
-        setIsModalOpen(false);
-        setUserInfo({ ...userInfo, age: userAge, gender: userGender });
+        setExerciseModalIsVisible(false);
+        setUserInfo({ ...userInfo, age, gender });
       })
       .catch((error) => {
         console.error(error);
@@ -102,44 +93,12 @@ function Profile({ isLoggedIn }) {
   } else {
     return (
       <div className="profile">
+        {exerciseModalIsVisible && (
+          <ExerciseModal onClose={hideExerciseModalHandler}>
+            <ProfileModalForm onSubmit={handleModalSubmit} />
+          </ExerciseModal>
+        )}
         <div className="profile__left">
-          <Modal
-            className="my-modal"
-            isOpen={isModalOpen}
-            onRequestClose={() => setIsModalOpen(false)}
-          >
-            <div className="modal-form">
-              <h2>Choose your age and gender:</h2>
-              <form onSubmit={handleSubmit}>
-                <label>
-                  Age:
-                  <input
-                    type="number"
-                    value={userAge}
-                    onChange={handleAgeChange}
-                    required
-                  />
-                </label>
-                <label>
-                  Gender:
-                  <select
-                    value={userGender}
-                    onChange={handleGenderChange}
-                    required
-                  >
-                    <option value="">Select gender</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                    <option value="Non-binary">Non-binary</option>
-                    <option value="Other">Other</option>
-                  </select>
-                </label>
-                <button className="btn" type="submit">
-                  Submit
-                </button>
-              </form>
-            </div>
-          </Modal>
           <div className="profile__user">
             <div className="profile__image-container">
               <img
