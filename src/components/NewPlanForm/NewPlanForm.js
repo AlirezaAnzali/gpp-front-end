@@ -14,6 +14,7 @@ function NewPlanForm() {
   const [muscleFocus, setMuscleFocus] = useState("");
   const [workoutDays, setWorkoutDays] = useState("");
   const [weight, setWeight] = useState("");
+  const [weightUnit, setWeightUnit] = useState("kg");
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -40,6 +41,7 @@ function NewPlanForm() {
   const userName = location.state.name;
 
   const handleSubmit = (e) => {
+    const weightInKg = weightUnit === "lb" ? weight / 2.20462 : weight;
     e.preventDefault();
     const token = sessionStorage.getItem("token");
     axios
@@ -51,7 +53,7 @@ function NewPlanForm() {
           goal,
           muscleFocus,
           workoutDays,
-          weight,
+          weight: weightInKg,
         },
         {
           headers: {
@@ -98,9 +100,31 @@ function NewPlanForm() {
           />
         </div>
         <div className="new-plan-form__field">
+          <label className="new-plan-form__label">
+            Choose your weight unit:
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="kg"
+              checked={weightUnit === "kg"}
+              onChange={() => setWeightUnit("kg")}
+            />
+            Kilograms (kg)
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="lb"
+              checked={weightUnit === "lb"}
+              onChange={() => setWeightUnit("lb")}
+            />
+            Pounds (lb)
+          </label>
+        </div>
+        <div className="new-plan-form__field">
           <label htmlFor="weight" className="new-plan-form__label">
-            Could you share your weight in kilograms with us? This will help us
-            personalize your plan.
+            Enter your weight ({weightUnit}):
           </label>
           <input
             type="number"
@@ -172,7 +196,9 @@ function NewPlanForm() {
         <button type="submit" className="new-plan-form__submit-button">
           Create your plan and start your fitness journey here!
         </button>
-        <p className="last-sentence">Once created, you can view your customized plan in your profile.</p>
+        <p className="last-sentence">
+          Once created, you can view your customized plan in your profile.
+        </p>
       </form>
     </div>
   );

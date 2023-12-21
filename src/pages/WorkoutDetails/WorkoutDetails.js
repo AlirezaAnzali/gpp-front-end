@@ -27,6 +27,7 @@ function WorkoutDetails() {
 
   const [selectedExercise, setSelectedExercise] = useState(null);
   const [newExercise, setNewExercise] = useState(null);
+  const [displayWeightInPounds, setDisplayWeightInPounds] = useState(false);
 
   function showExerciseModalHandler(exercise) {
     setSelectedExercise(exercise);
@@ -36,18 +37,9 @@ function WorkoutDetails() {
   function hideExerciseModalHandler() {
     setExerciseModalIsVisible(false);
   }
-  
-  function showSelectionModalHandler(exercise) {
-    setSelectedExercise(exercise);
-    setSelectionModalIsVisible(true);
-  }
 
   function hideSelectionModalHandler(event) {
     setSelectionModalIsVisible(false);
-  }
-
-  function showConfirmationModalHandler(exercise) {
-    setConfirmationModalIsVisible(true);
   }
 
   function hideConfirmationModalHandler(event) {
@@ -247,9 +239,26 @@ function WorkoutDetails() {
                 <p className="workout__top__content__text__goal">
                   Your Goal: {workout.goal}
                 </p>
-                <p className="workout__top__content__text__weight">
-                  Your Weight: {workout.weight} kg
-                </p>
+                <div className="workout__top__content__text__weight">
+                  <span className="workout__top__content__text__weight__label">
+                    Your Weight:
+                  </span>
+                  <span className="workout__top__content__text__weight__value">
+                    {displayWeightInPounds
+                      ? ` ${(workout.weight * 2.20462).toFixed(2)} `
+                      : ` ${workout.weight} `}
+                  </span>
+                  <select
+                    id="weight-unit-dropdown"
+                    value={displayWeightInPounds ? "lb" : "kg"}
+                    onChange={(e) =>
+                      setDisplayWeightInPounds(e.target.value === "lb")
+                    }
+                  >
+                    <option value="kg">Kilograms (kg)</option>
+                    <option value="lb">Pounds (lb)</option>
+                  </select>
+                </div>
               </div>
             </div>
           </div>

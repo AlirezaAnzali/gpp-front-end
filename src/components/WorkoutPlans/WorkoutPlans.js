@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import { CircularProgressbar } from "react-circular-progressbar";
 import "./WorkoutPlans.scss";
 
 function WorkoutPlans({ userInfo }) {
@@ -43,9 +43,9 @@ function WorkoutPlans({ userInfo }) {
               const startDate = new Date(
                 workout.timestamp
               ).toLocaleDateString();
-              const endDate = new Date(
-                workout.timestamp + workout.weeks * 7 * 24 * 60 * 60 * 1000
-              ).toLocaleDateString();
+              // const endDate = new Date(
+              //   workout.timestamp + workout.weeks * 7 * 24 * 60 * 60 * 1000
+              // ).toLocaleDateString();
               return (
                 <li
                   onClick={() => onGotoWorkoutPlan(workout)}
