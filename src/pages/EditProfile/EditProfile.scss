@@ -103,14 +103,16 @@
     }
   }
 
-  &__bottom {
-
-  }
-
   &__button {
     margin-bottom: 1rem;
     @include tablet {
         margin: 1rem;
     }
   }
+}
+
+.link {
+  background-color: transparent;
+  border: none;
+  @include labelButtonsText;
 }

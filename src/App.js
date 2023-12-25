@@ -14,6 +14,7 @@ import {
   Route,
 } from "react-router-dom";
 import { useState } from 'react';
+import { Toaster } from 'react-hot-toast';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(
@@ -31,43 +32,44 @@ function App() {
 
   return (
     <Router>
+      <Toaster position="top-center" reverseOrder={false} />
+      {showSignInModal && !isLoggedIn && (
+        <div className="overlay" onClick={handleCloseModal}></div>
+      )}
+      <div className="modal-wrapper">
         {showSignInModal && !isLoggedIn && (
-          <div className="overlay" onClick={handleCloseModal}></div>
+          <SignInModal
+            setIsLoggedIn={setIsLoggedIn}
+            handleCloseModal={handleCloseModal}
+          />
         )}
-        <div className="modal-wrapper">
-          {showSignInModal && !isLoggedIn && (
-            <SignInModal
+      </div>
+      <Header
+        isLoggedIn={isLoggedIn}
+        handleSignInClick={handleSignInClick}
+        setIsLoggedIn={setIsLoggedIn}
+      />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Home
+              isLoggedIn={isLoggedIn}
               setIsLoggedIn={setIsLoggedIn}
-              handleCloseModal={handleCloseModal}
+              showSignInModal={showSignInModal}
             />
-          )}
-        </div>
-        <Header
-          isLoggedIn={isLoggedIn}
-          handleSignInClick={handleSignInClick}
-          setIsLoggedIn={setIsLoggedIn}
+          }
         />
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Home
-                isLoggedIn={isLoggedIn}
-                setIsLoggedIn={setIsLoggedIn}
-                showSignInModal={showSignInModal}
-              />
-            }
-          />
-          <Route
-            path="/user-profile"
-            element={<Profile isLoggedIn={isLoggedIn} />}
-          />
-          <Route path="/user-profile/edit" element={<EditProfile />} />
-          <Route path="/new-plan" element={<NewPlanForm />} />
-          <Route path="/workout-plan" element={<WorkoutDetails />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-        <Footer />
+        <Route
+          path="/user-profile"
+          element={<Profile isLoggedIn={isLoggedIn} />}
+        />
+        <Route path="/user-profile/edit" element={<EditProfile />} />
+        <Route path="/new-plan" element={<NewPlanForm />} />
+        <Route path="/workout-plan" element={<WorkoutDetails />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+      <Footer />
     </Router>
   );
 }

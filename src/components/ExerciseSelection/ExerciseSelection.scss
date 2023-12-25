@@ -36,13 +36,19 @@
     }
   }
   .button-container {
-    text-align: center;
-    margin-top: 1rem;
-  }
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    @include desktop {
+      flex-direction: row;
+      justify-content: space-between;
+    }
 
-  .validation-error {
-    color: Red;
-    font-weight: bold;
-    margin-top: 0.5rem;
+    button {
+      @include desktop {
+        margin: .75rem;
+      }
+    }
   }
 }

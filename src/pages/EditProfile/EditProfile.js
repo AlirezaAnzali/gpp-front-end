@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
+import toast from "react-hot-toast";
 import "./EditProfile.scss"
 
 const baseUrl = "http://localhost:8080";
 const profileUrl = `${baseUrl}/profile`;
 
 function EditProfile() {
-  const [isLoading, setIsLoading] = useState(false);
+
   const navigate = useNavigate();
   const location = useLocation();
   const [userInfo, setUserInfo] = useState({
@@ -15,12 +16,16 @@ function EditProfile() {
     email: location.state.email,
     age: location.state.age,
     gender: location.state.gender,
+    password: location.state.password,
   });
-  const [password, setPassword] = useState("");
+  const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
-  const [error, setError] = useState("");
   const [isChangingPassword, setIsChangingPassword] = useState(false);
+
+  const handleCurrentPasswordChange = (event) => {
+    setCurrentPassword(event.target.value);
+  };
 
   const handleNewPasswordChange = (event) => {
     setNewPassword(event.target.value);
@@ -51,18 +56,30 @@ function EditProfile() {
     }));
   };
 
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-  };
-
   const handlePasswordLinkClick = (event) => {
     event.preventDefault();
     setIsChangingPassword(!isChangingPassword);
   };
 
   const validatePassword = () => {
+    if (userInfo.password !== currentPassword) {
+      toast.error("Current password does not match", {
+        style: {
+          borderRadius: "10px",
+          background: "#4b4b4b",
+          color: "#E5E5E5",
+        },
+      });
+      return false;
+    }
     if (newPassword !== confirmNewPassword) {
-      setError("New password and confirm new password do not match");
+      toast.error("New password and confirm new password do not match", {
+        style: {
+          borderRadius: "10px",
+          background: "#4b4b4b",
+          color: "#E5E5E5",
+        },
+      });
       return false;
     }
     if (
@@ -70,8 +87,15 @@ function EditProfile() {
       !/\d/.test(newPassword) ||
       !/[a-zA-Z]/.test(newPassword)
     ) {
-      setError(
-        "New password must be at least 8 characters long and contain both letters and numbers"
+      toast.error(
+        "New password must be at least 8 characters long and contain both letters and numbers",
+        {
+          style: {
+            borderRadius: "10px",
+            background: "#4b4b4b",
+            color: "#E5E5E5",
+          },
+        }
       );
       return false;
     }
@@ -83,10 +107,8 @@ function EditProfile() {
     if (!validatePassword()) {
       return;
     }
-    setIsLoading(true);
     const token = sessionStorage.getItem("token");
-    let requestBody = { ...userInfo, password };
-    setError("");
+    let requestBody = { ...userInfo, currentPassword };
     if (
       newPassword &&
       confirmNewPassword
@@ -100,20 +122,24 @@ function EditProfile() {
         },
       })
       .then(() => {
-        setIsLoading(false);
-        if (!error) {
-          try {
-            navigate("/user-profile");
-            alert("Your information edited successfully!");
-          } catch (e) {
-            console.error(e);
-          }
-        }
+        navigate("/user-profile");
+        toast.success("Your information edited successfully!", {
+          style: {
+            borderRadius: "10px",
+            background: "#4b4b4b",
+            color: "#E5E5E5",
+          },
+        })
       })
       .catch((error) => {
         console.error(error);
-        setIsLoading(false);
-        setError(error.message);
+        toast.error(error.message, {
+          style: {
+            borderRadius: "10px",
+            background: "#4b4b4b",
+            color: "#E5E5E5",
+          },
+        });
       });
   };
 
@@ -165,9 +191,9 @@ function EditProfile() {
           <br />
         </div>
         <div className="edit-profile-page__password">
-          <a className="link" href="#" onClick={handlePasswordLinkClick}>
+          <button className="link" onClick={handlePasswordLinkClick}>
             Change Password
-          </a>
+          </button>
           <br />
           <br />
           {isChangingPassword && (
@@ -176,8 +202,8 @@ function EditProfile() {
                 Current Password:
                 <input
                   type="password"
-                  value={password}
-                  onChange={handlePasswordChange}
+                  value={currentPassword}
+                  onChange={handleCurrentPasswordChange}
                   required
                   className="edit-profile-page__input"
                 />
@@ -217,9 +243,6 @@ function EditProfile() {
               Cancel
             </button>
           </div>
-        </div>
-        <div className="edit-profile-page__error">
-          {error && <p>{error}</p>}
         </div>
       </form>
     </div>

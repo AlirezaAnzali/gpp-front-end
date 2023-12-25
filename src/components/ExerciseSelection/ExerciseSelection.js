@@ -1,12 +1,8 @@
 import "./ExerciseSelection.scss";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
-function ExerciseSelection({
-  exercises,
-  onSelect,
-  selectedExercise
-}) {
-  const [validationError, setValidationError] = useState(null); // State for validation error
+function ExerciseSelection({ exercises, onSelect, selectedExercise, onClose }) {
   // Filter exercises based on the selected exercise's muscles property
   const filteredExercises = exercises.filter(
     (exercise) =>
@@ -22,14 +18,20 @@ function ExerciseSelection({
 
   const handleSelectClick = () => {
     if (!selectedId) {
-      setValidationError("Please select an exercise before clicking 'Select'.");
+      toast("Please select an exercise before clicking 'Select'.", {
+        icon: "⚠️",
+        style: {
+          borderRadius: "10px",
+          background: "#4b4b4b",
+          color: "#E5E5E5",
+        },
+      });
       return;
     }
 
-    // Reset validation error
-    setValidationError(null);
-
-    const newExercise = exercises.find((exercise) => exercise.id === selectedId);
+    const newExercise = exercises.find(
+      (exercise) => exercise.id === selectedId
+    );
     onSelect(newExercise);
   };
 
@@ -51,11 +53,11 @@ function ExerciseSelection({
           </div>
         ))}
         <div className="button-container">
-          {validationError && (
-            <p className="validation-error">{validationError}</p>
-          )}
           <button className="btn" type="button" onClick={handleSelectClick}>
             Select
+          </button>
+          <button className="btn" type="button" onClick={onClose}>
+            Cancel
           </button>
         </div>
       </form>

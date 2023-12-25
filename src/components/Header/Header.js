@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const baseUrl = "http://localhost:8080";
 const logoutUrl = `${baseUrl}/logout`;
@@ -26,7 +27,13 @@ const Header = ({ handleSignInClick, isLoggedIn, setIsLoggedIn }) => {
         // Remove the token from session storage
         sessionStorage.removeItem("token");
         // Redirect the user to the login page
-        alert("You signed out successfully!");
+        toast.success("You signed out successfully!", {
+          style: {
+            borderRadius: "10px",
+            background: "#4b4b4b",
+            color: "#E5E5E5",
+          },
+        });
         setIsLoggedIn(false);
         navigate("/");
       })

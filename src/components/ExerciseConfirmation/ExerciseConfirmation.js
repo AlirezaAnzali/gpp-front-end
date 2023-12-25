@@ -1,11 +1,11 @@
 import { useState } from "react";
-
+import toast from "react-hot-toast";
 import "./ExerciseConfirmation.scss";
 
 function ExerciseConfirmation({ onConfirm, onClose, newExercise }) {
-  const [sets, setSets] = useState(""); // State for sets input
-  const [reps, setReps] = useState(""); // State for reps input
-  const [validationError, setValidationError] = useState(null); // State for validation error
+  const [sets, setSets] = useState("");
+  const [reps, setReps] = useState("");
+
 
   const handleSetsChange = (event) => {
     const value = event.target.value;
@@ -23,21 +23,28 @@ function ExerciseConfirmation({ onConfirm, onClose, newExercise }) {
     const repsValue = parseInt(reps, 10);
 
     if (isNaN(setsValue) || isNaN(repsValue)) {
-      setValidationError(
-        "Please enter valid numeric values for sets and reps."
-      );
+      toast("Sets and Reps should be numbers", {
+        icon: "⚠️",
+        style: {
+          borderRadius: "10px",
+          background: "#4b4b4b",
+          color: "#E5E5E5",
+        },
+      });
       return;
     }
 
     if (setsValue < 1 || setsValue > 6 || repsValue < 4 || repsValue > 20) {
-      setValidationError(
-        "Sets should be between 1 and 6, and reps between 4 and 20."
-      );
+      toast("Sets should be between 1 and 6, and reps between 4 and 20.", {
+        icon: "⚠️",
+        style: {
+          borderRadius: "10px",
+          background: "#4b4b4b",
+          color: "#E5E5E5",
+        },
+      });
       return;
     }
-
-    // Reset validation error
-    setValidationError(null);
 
     // Send the confirmed exercise details to the parent component
     onConfirm({
@@ -78,9 +85,6 @@ function ExerciseConfirmation({ onConfirm, onClose, newExercise }) {
             onChange={handleRepsChange}
           />
         </div>
-        {validationError && (
-          <p className="validation-error">{validationError}</p>
-        )}
       </div>
       <div className="button-container">
         <button className="btn" onClick={handleConfirm}>

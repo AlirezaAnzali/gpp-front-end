@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./NewPlanForm.scss";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const baseUrl = "http://localhost:8080";
 const workoutUrl = `${baseUrl}/workouts`;
@@ -56,8 +57,15 @@ function NewPlanForm() {
     const weightInKg = weightUnit === "lb" ? weight / 2.20462 : weight;
     e.preventDefault();
     if (!isFormValid()) {
-      alert(
-        "Please fill in all required fields and ensure values are within the specified ranges."
+      toast.error(
+        "Please fill in all required fields and ensure values are within the specified ranges.",
+        {
+          style: {
+            borderRadius: "10px",
+            background: "#4b4b4b",
+            color: "#E5E5E5",
+          },
+        }
       );
       return;
     }
@@ -84,7 +92,13 @@ function NewPlanForm() {
         if (!error) {
           try {
             navigate("/user-profile");
-            alert("Your workout plan created successfully!");
+            toast.success("Your workout plan created successfully!", {
+              style: {
+                borderRadius: "10px",
+                background: "#4b4b4b",
+                color: "#E5E5E5",
+              },
+            });
           } catch (e) {
             console.error(e);
           }
@@ -114,7 +128,6 @@ function NewPlanForm() {
             value={planName}
             onChange={handlePlanNameChange}
             className="new-plan-form__input"
-            required
           />
         </div>
         <div className="new-plan-form__field">
@@ -163,7 +176,6 @@ function NewPlanForm() {
             value={goal}
             onChange={handleGoalChange}
             className="new-plan-form__select"
-            required
           >
             <option value="">
               Choose a goal that aligns with your fitness aspirations.

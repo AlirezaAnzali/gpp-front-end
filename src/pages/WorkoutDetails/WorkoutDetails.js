@@ -4,6 +4,7 @@ import ExerciseModal from "../../components/ExerciseModal/ExerciseModal";
 import ExerciseDetail from "../../components/ExerciseDetail/ExerciseDetail";
 import ExerciseSelection from "../../components/ExerciseSelection/ExerciseSelection";
 import ExerciseConfirmation from "../../components/ExerciseConfirmation/ExerciseConfirmation";
+import toast from "react-hot-toast";
 import axios from "axios";
 
 import "./WorkoutDetails.scss";
@@ -68,11 +69,23 @@ function WorkoutDetails() {
       .then((response) => {
         const updatedWorkout = response.data.workoutPlan;
         setWorkout(updatedWorkout); // Update the component state
-        alert(response.data.message);
+        toast.error(response.data.message, {
+          style: {
+            borderRadius: "10px",
+            background: "#4b4b4b",
+            color: "#E5E5E5",
+          },
+        });
       })
       .catch((error) => {
         console.error(error);
-        alert("An error occurred while updating the workout plan.");
+        toast.error("An error occurred while updating the workout plan.", {
+          style: {
+            borderRadius: "10px",
+            background: "#4b4b4b",
+            color: "#E5E5E5",
+          },
+        });
       });
 
 
@@ -195,6 +208,7 @@ function WorkoutDetails() {
             exercises={exercises}
             onSelect={handleExerciseSelection}
             selectedExercise={selectedExercise}
+            onClose={hideSelectionModalHandler}
           />
         </ExerciseModal>
       )}

@@ -3,6 +3,7 @@ import * as Components from "./Components";
 import "./SignInModal.scss"
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const baseUrl = "http://localhost:8080";
 const signupUrl = `${baseUrl}/signup`;
@@ -21,7 +22,14 @@ function SignInModal({ handleCloseModal, setIsLoggedIn }) {
     const password = e.target.password.value;
 
     if (!email || !name || !password) {
-      alert("Please fill in all fields");
+      toast("Please fill in all fields", {
+        icon: "⚠️",
+        style: {
+          borderRadius: "10px",
+          background: "#4b4b4b",
+          color: "#E5E5E5",
+        },
+      });
       return;
     }
 
@@ -29,7 +37,13 @@ function SignInModal({ handleCloseModal, setIsLoggedIn }) {
       .post(signupUrl, { name, email, password })
       .then((response) => {
         console.log(response.data);
-        alert("You signed up successfully!");
+        toast.success("You signed up successfully!", {
+          style: {
+            borderRadius: "10px",
+            background: "#4b4b4b",
+            color: "#E5E5E5",
+          },
+        });
         setIsSignedUp(true);
         // Perform login after successful signup
         axios
@@ -42,15 +56,34 @@ function SignInModal({ handleCloseModal, setIsLoggedIn }) {
             navigate("/user-profile");
           })
           .catch((loginError) => {
-            alert(loginError.response.data.error.message);
+            toast.error(loginError.response.data.error.message, {
+              style: {
+                borderRadius: "10px",
+                background: "#4b4b4b",
+                color: "#E5E5E5",
+              },
+            });
           });
       })
       .catch((error) => {
         console.error(error);
         if (error.response.status === 400) {
-          alert("This email is already signed up. Please sign in.");
+          toast("This email is already signed up. Please sign in.", {
+            icon: "⚠️",
+            style: {
+              borderRadius: "10px",
+              background: "#4b4b4b",
+              color: "#E5E5E5",
+            },
+          });
         } else {
-          alert("Something went wrong. Please try again later.");
+          toast.error("Something went wrong. Please try again later.", {
+            style: {
+              borderRadius: "10px",
+              background: "#4b4b4b",
+              color: "#E5E5E5",
+            },
+          });
         }
       });
   };
@@ -60,7 +93,14 @@ function SignInModal({ handleCloseModal, setIsLoggedIn }) {
     const email = e.target.email.value;
     const password = e.target.password.value;
     if (!email || !password) {
-      alert("Please provide an email and password");
+      toast("Please provide an email and password", {
+        icon: "⚠️",
+        style: {
+          borderRadius: "10px",
+          background: "#4b4b4b",
+          color: "#E5E5E5",
+        }
+      });
       return;
     }
     axios
@@ -72,11 +112,23 @@ function SignInModal({ handleCloseModal, setIsLoggedIn }) {
         const token = response.data.token;
         sessionStorage.setItem("token", token);
         setIsLoggedIn(true);
-        alert("You signed in successfully!");
+        toast.success("You signed in successfully!", {
+          style: {
+            borderRadius: "10px",
+            background: "#4b4b4b",
+            color: "#E5E5E5",
+          },
+        });
         navigate("/user-profile");
       })
       .catch((error) => {
-        alert(error.response.data.error.message);
+        toast.error(error.response.data.error.message, {
+          style: {
+            borderRadius: "10px",
+            background: "#4b4b4b",
+            color: "#E5E5E5",
+          },
+        });
       });
   };
 
