@@ -16,7 +16,6 @@ function EditProfile() {
     email: location.state.email,
     age: location.state.age,
     gender: location.state.gender,
-    password: location.state.password,
   });
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -62,16 +61,6 @@ function EditProfile() {
   };
 
   const validatePassword = () => {
-    if (userInfo.password !== currentPassword) {
-      toast.error("Current password does not match", {
-        style: {
-          borderRadius: "10px",
-          background: "#4b4b4b",
-          color: "#E5E5E5",
-        },
-      });
-      return false;
-    }
     if (newPassword !== confirmNewPassword) {
       toast.error("New password and confirm new password do not match", {
         style: {
@@ -83,12 +72,12 @@ function EditProfile() {
       return false;
     }
     if (
-      newPassword.length < 8 ||
+      newPassword.length < 6 ||
       !/\d/.test(newPassword) ||
       !/[a-zA-Z]/.test(newPassword)
     ) {
       toast.error(
-        "New password must be at least 8 characters long and contain both letters and numbers",
+        "New password must be at least 6 characters long and contain both letters and numbers",
         {
           style: {
             borderRadius: "10px",
@@ -104,15 +93,15 @@ function EditProfile() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (!validatePassword()) {
-      return;
-    }
     const token = sessionStorage.getItem("token");
     let requestBody = { ...userInfo, currentPassword };
     if (
       newPassword &&
       confirmNewPassword
     ) {
+      if (!validatePassword()) {
+        return;
+      }
       requestBody = { ...requestBody, newPassword };
     }
     axios
@@ -129,17 +118,29 @@ function EditProfile() {
             background: "#4b4b4b",
             color: "#E5E5E5",
           },
-        })
+        });
       })
       .catch((error) => {
-        console.error(error);
-        toast.error(error.message, {
-          style: {
-            borderRadius: "10px",
-            background: "#4b4b4b",
-            color: "#E5E5E5",
-          },
-        });
+        if (error.response && error.response.status === 401) {
+          // Handle authentication error
+          toast.error("Incorrect current password", {
+            style: {
+              borderRadius: "10px",
+              background: "#4b4b4b",
+              color: "#E5E5E5",
+            },
+          });
+        } else {
+          // Handle other errors
+          console.error(error);
+          toast.error("An error occurred", {
+            style: {
+              borderRadius: "10px",
+              background: "#4b4b4b",
+              color: "#E5E5E5",
+            },
+          });
+        }
       });
   };
 
