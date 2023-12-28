@@ -26,6 +26,12 @@
   background-color: $Black;
   border: 1px solid $Orange;
   border-radius: 0.5rem;
-  padding: .2rem;
+  padding: .3rem;
   z-index: 3;
+  @include tablet {
+    padding: .5rem;
+  }
+  @include desktop {
+    padding: 1rem;
+  }
 }

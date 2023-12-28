@@ -1,0 +1,58 @@
+@use "../../styles/partials/variables" as *;
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/typography" as *;
+
+.workout-delete {
+  margin: auto;
+  background-color: $LightBlack;
+  padding: 1rem;
+  @include tablet {
+    padding: 2rem;
+  }
+
+  .workout-delete-clarification {
+    margin-bottom: 1.25rem;
+
+    .workout-delete-clarification-header {
+      @include pageHeaderText;
+      margin-bottom: 1rem;
+      color: $White;
+
+      span {
+        color: $Orange;
+      }
+    }
+
+    .workout-delete-clarification-text {
+      @include bodyMediumText;
+      color: $Silver;
+    }
+  }
+
+  .workout-delete-button-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    @include tablet {
+      flex-direction: row;
+    }
+
+    .delete-btn {
+      background-color: #e74c3c;
+      color: $Black;
+      margin-bottom: 1rem;
+      @include tablet {
+        margin-right: 1rem;
+        margin-bottom: 0;
+      }
+      @include tablet {
+        margin-right: 2rem;
+      }
+      &:hover {
+        background-color: #c0392b;
+        color: $White;
+      }
+    }
+  }
+}

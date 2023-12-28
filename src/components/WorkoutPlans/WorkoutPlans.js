@@ -2,6 +2,9 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { CircularProgressbar } from "react-circular-progressbar";
+import toast from "react-hot-toast";
+import WorkoutDelete from "../WorkoutDelete/WorkoutDelete";
+import ExerciseModal from "../ExerciseModal/ExerciseModal";
 import "./WorkoutPlans.scss";
 
 function WorkoutPlans({ userInfo }) {
@@ -9,6 +12,18 @@ function WorkoutPlans({ userInfo }) {
   const workoutsUrl = `${baseUrl}/plans`;
   const navigate = useNavigate();
   const [workouts, setWorkouts] = useState([]);
+  const [deleteModalIsVisible, setDeleteModalIsVisible] = useState(false);
+  const [selectedWorkout, setSelectedWorkout] = useState(null);
+
+
+  function showDeleteModalHandler(workout) {
+    setDeleteModalIsVisible(true);
+    setSelectedWorkout(workout);
+  }
+
+  function hideDeleteModalHandler() {
+    setDeleteModalIsVisible(false);
+  }
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
@@ -25,6 +40,47 @@ function WorkoutPlans({ userInfo }) {
         console.error(error);
       });
   }, []);
+
+  const handleDeleteButtonClick = (workout) => {
+    return (e) => {
+      e.stopPropagation();
+      showDeleteModalHandler(workout);
+    };
+  };
+
+  const onDeleteWorkout = (selectedWorkout) => {
+    const token = sessionStorage.getItem("token");
+
+    axios
+      .delete(`${workoutsUrl}/${selectedWorkout.id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        const updatedWorkouts = response.data.workouts;
+        setWorkouts(updatedWorkouts);
+        toast.success(response.data.message, {
+          style: {
+            borderRadius: "10px",
+            background: "#4b4b4b",
+            color: "#E5E5E5",
+          },
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+        toast.error("An error occurred while deleting workout.", {
+          style: {
+            borderRadius: "10px",
+            background: "#4b4b4b",
+            color: "#E5E5E5",
+          },
+        });
+      });
+    hideDeleteModalHandler();
+    setSelectedWorkout(null);
+  };
 
   const renderWorkouts = () => {
     if (workouts.length === 0) {
@@ -52,6 +108,15 @@ function WorkoutPlans({ userInfo }) {
                   className="workout-plans-item"
                   key={workout.id}
                 >
+                  {deleteModalIsVisible && (
+                    <ExerciseModal onClose={hideDeleteModalHandler}>
+                      <WorkoutDelete
+                        workout={selectedWorkout}
+                        onDelete={onDeleteWorkout}
+                        onClose={hideDeleteModalHandler}
+                      />
+                    </ExerciseModal>
+                  )}
                   <div className="workout-info">
                     <div className="workout-name">{workout.planName}</div>
                     <div className="workout-goal">
@@ -71,6 +136,26 @@ function WorkoutPlans({ userInfo }) {
                         text={`${workout.progress}%`}
                       />
                     </div>
+                    <div className="workout-delete-div">
+                      <button
+                        className="workout-delete-div-button"
+                        onClick={handleDeleteButtonClick(workout)}
+                      >
+                        <svg
+                          className="workout-delete-div-button-img"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M6 19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V7H6V19ZM8 9H16V19H8V9ZM15.5 4L14.5 3H9.5L8.5 4H5V6H19V4H15.5Z"
+                            fill="#4b4b4b"
+                          />
+                        </svg>
+                      </button>
+                    </div>
                   </div>
                 </li>
               );
@@ -81,15 +166,16 @@ function WorkoutPlans({ userInfo }) {
     }
   };
 
-
   const onGotoWorkoutPlan = (workout) => {
-    navigate("/workout-plan", {
-      state: {
-        id: userInfo.id,
-        name: userInfo.name,
-        workout: workout,
-      },
-    });
+    if (!deleteModalIsVisible) {
+      navigate("/workout-plan", {
+        state: {
+          id: userInfo.id,
+          name: userInfo.name,
+          workout: workout,
+        },
+      });
+    }
   };
 
   return <div className="workout-plans-container">{renderWorkouts()}</div>;
