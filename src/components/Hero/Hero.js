@@ -6,7 +6,6 @@ import pic3 from "../../assets/images/pic3.jpg";
 
 const Hero = () => {
   const [index, setIndex] = useState(0);
-  const [timer, setTimer] = useState(null);
 
   const images = [
     {
@@ -40,7 +39,6 @@ const Hero = () => {
 
   const handleDotClick = (i) => {
     setIndex(i);
-    clearInterval(timer);
   };
 
   return (
