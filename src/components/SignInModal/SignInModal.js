@@ -36,7 +36,6 @@ function SignInModal({ handleCloseModal, setIsLoggedIn }) {
     axios
       .post(signupUrl, { name, email, password })
       .then((response) => {
-        console.log(response.data);
         toast.success("You signed up successfully!", {
           style: {
             borderRadius: "10px",
@@ -49,7 +48,6 @@ function SignInModal({ handleCloseModal, setIsLoggedIn }) {
         axios
           .post(loginUrl, { email, password })
           .then((loginResponse) => {
-            console.log(loginResponse.data);
             const token = loginResponse.data.token;
             sessionStorage.setItem("token", token);
             setIsLoggedIn(true);

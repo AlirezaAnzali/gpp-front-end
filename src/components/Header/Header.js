@@ -42,8 +42,6 @@ const Header = ({ handleSignInClick, isLoggedIn, setIsLoggedIn }) => {
       });
   };
 
-  // console.log(isLoggedIn);
-
   return (
     <header className="header">
       <Link to={"/"} className="header__logo__link">
