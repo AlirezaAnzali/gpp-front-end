@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./NewPlanForm.scss";
 import axios from "axios";
@@ -111,6 +111,19 @@ function NewPlanForm() {
         setError(error.message);
       });
   };
+
+  useEffect(() => {
+    if (isLoading) {
+      toast("Loading, Please wait", {
+        icon: "⏳",
+        style: {
+          borderRadius: "10px",
+          background: "#4b4b4b",
+          color: "#E5E5E5",
+        },
+      });
+    }
+  }, [isLoading]);
 
 
   return (

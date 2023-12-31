@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import * as Components from "./Components";
 import "./SignInModal.scss"
 import axios from "axios";
@@ -14,7 +14,7 @@ const loginUrl = `${baseUrl}/login`;
 function SignInModal({ handleCloseModal, setIsLoggedIn }) {
   const navigate = useNavigate();
   const [signIn, toggle] = useState(true);
-  const [isSignedUp, setIsSignedUp] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
     
   const handleSignup = (e) => {
     e.preventDefault();
@@ -34,9 +34,12 @@ function SignInModal({ handleCloseModal, setIsLoggedIn }) {
       return;
     }
 
+    setIsLoading(true);
+
     axios
       .post(signupUrl, { name, email, password })
       .then((response) => {
+        setIsLoading(false);
         toast.success("You signed up successfully!", {
           style: {
             borderRadius: "10px",
@@ -44,7 +47,6 @@ function SignInModal({ handleCloseModal, setIsLoggedIn }) {
             color: "#E5E5E5",
           },
         });
-        setIsSignedUp(true);
         // Perform login after successful signup
         axios
           .post(loginUrl, { email, password })
@@ -67,6 +69,7 @@ function SignInModal({ handleCloseModal, setIsLoggedIn }) {
       .catch((error) => {
         console.error(error);
         if (error.response.status === 400) {
+          setIsLoading(false);
           toast("This email is already signed up. Please sign in.", {
             icon: "⚠️",
             style: {
@@ -76,6 +79,7 @@ function SignInModal({ handleCloseModal, setIsLoggedIn }) {
             },
           });
         } else {
+          setIsLoading(false);
           toast.error("Something went wrong. Please try again later.", {
             style: {
               borderRadius: "10px",
@@ -102,6 +106,9 @@ function SignInModal({ handleCloseModal, setIsLoggedIn }) {
       });
       return;
     }
+
+    setIsLoading(true);
+
     axios
       .post(loginUrl, {
         email,
@@ -110,6 +117,7 @@ function SignInModal({ handleCloseModal, setIsLoggedIn }) {
       .then((response) => {
         const token = response.data.token;
         sessionStorage.setItem("token", token);
+        setIsLoading(false);
         setIsLoggedIn(true);
         toast.success("You signed in successfully!", {
           style: {
@@ -121,6 +129,7 @@ function SignInModal({ handleCloseModal, setIsLoggedIn }) {
         navigate("/user-profile");
       })
       .catch((error) => {
+        setIsLoading(false);
         toast.error(error.response.data.error.message, {
           style: {
             borderRadius: "10px",
@@ -131,63 +140,76 @@ function SignInModal({ handleCloseModal, setIsLoggedIn }) {
       });
   };
 
+  useEffect(() => {
+    if (isLoading) {
+      toast("Loading, Please wait", {
+        icon: "⏳",
+        style: {
+          borderRadius: "10px",
+          background: "#4b4b4b",
+          color: "#E5E5E5",
+        },
+      });
+    }
+  }, [isLoading]);
 
   return (
-    <Components.Container>
-      <button className="exit-button" onClick={handleCloseModal}>
-        X
-      </button>
-      <Components.SignUpContainer signinIn={signIn}>
-        <Components.Form onSubmit={handleSignup}>
-          <Components.Title>Create Account</Components.Title>
-          <Components.Input name="name" type="text" placeholder="Name" />
-          <Components.Input name="email" type="email" placeholder="Email" />
-          <Components.Input
-            name="password"
-            type="password"
-            placeholder="Password"
-          />
-          <Components.Button type="submit">Sign Up</Components.Button>
-        </Components.Form>
-      </Components.SignUpContainer>
 
-      <Components.SignInContainer signinIn={signIn}>
-        <Components.Form onSubmit={handleLogin}>
-          <Components.Title>Access Account</Components.Title>
-          <Components.Input name="email" type="email" placeholder="Email" />
-          <Components.Input
-            name="password"
-            type="password"
-            placeholder="Password"
-          />
-          <Components.Button type="submit">Sign In</Components.Button>
-        </Components.Form>
-      </Components.SignInContainer>
+      <Components.Container>
+        <button className="exit-button" onClick={handleCloseModal}>
+          X
+        </button>
+        <Components.SignUpContainer signinIn={signIn}>
+          <Components.Form onSubmit={handleSignup}>
+            <Components.Title>Create Account</Components.Title>
+            <Components.Input name="name" type="text" placeholder="Name" />
+            <Components.Input name="email" type="email" placeholder="Email" />
+            <Components.Input
+              name="password"
+              type="password"
+              placeholder="Password"
+            />
+            <Components.Button type="submit">Sign Up</Components.Button>
+          </Components.Form>
+        </Components.SignUpContainer>
 
-      <Components.OverlayContainer signinIn={signIn}>
-        <Components.Overlay signinIn={signIn}>
-          <Components.LeftOverlayPanel signinIn={signIn}>
-            <Components.Title>Welcome Back!</Components.Title>
-            <Components.Paragraph>
-              To keep connected with us please sign in with your personal info
-            </Components.Paragraph>
-            <Components.GhostButton onClick={() => toggle(true)}>
-              Sign In
-            </Components.GhostButton>
-          </Components.LeftOverlayPanel>
+        <Components.SignInContainer signinIn={signIn}>
+          <Components.Form onSubmit={handleLogin}>
+            <Components.Title>Access Account</Components.Title>
+            <Components.Input name="email" type="email" placeholder="Email" />
+            <Components.Input
+              name="password"
+              type="password"
+              placeholder="Password"
+            />
+            <Components.Button type="submit">Sign In</Components.Button>
+          </Components.Form>
+        </Components.SignInContainer>
 
-          <Components.RightOverlayPanel signinIn={signIn}>
-            <Components.Title>Hello, Friend!</Components.Title>
-            <Components.Paragraph>
-              Let's get you started on your fitness journey today!
-            </Components.Paragraph>
-            <Components.GhostButton onClick={() => toggle(false)}>
-              Sign Up
-            </Components.GhostButton>
-          </Components.RightOverlayPanel>
-        </Components.Overlay>
-      </Components.OverlayContainer>
-    </Components.Container>
+        <Components.OverlayContainer signinIn={signIn}>
+          <Components.Overlay signinIn={signIn}>
+            <Components.LeftOverlayPanel signinIn={signIn}>
+              <Components.Title>Welcome Back!</Components.Title>
+              <Components.Paragraph>
+                To keep connected with us please sign in with your personal info
+              </Components.Paragraph>
+              <Components.GhostButton onClick={() => toggle(true)}>
+                Sign In
+              </Components.GhostButton>
+            </Components.LeftOverlayPanel>
+
+            <Components.RightOverlayPanel signinIn={signIn}>
+              <Components.Title>Hello, Friend!</Components.Title>
+              <Components.Paragraph>
+                Let's get you started on your fitness journey today!
+              </Components.Paragraph>
+              <Components.GhostButton onClick={() => toggle(false)}>
+                Sign Up
+              </Components.GhostButton>
+            </Components.RightOverlayPanel>
+          </Components.Overlay>
+        </Components.OverlayContainer>
+      </Components.Container>
   );
 }
 

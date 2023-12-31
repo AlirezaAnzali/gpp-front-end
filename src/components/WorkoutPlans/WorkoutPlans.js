@@ -41,7 +41,7 @@ function WorkoutPlans({ userInfo }) {
       .catch((error) => {
         console.error(error);
       });
-  }, []);
+  }, [workoutsUrl]);
 
   const handleDeleteButtonClick = (workout) => {
     return (e) => {

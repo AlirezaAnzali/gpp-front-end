@@ -27,17 +27,16 @@ const Hero = () => {
   ];
 
   useEffect(() => {
-    setTimer(
-      setInterval(() => {
-        setIndex((prevIndex) => (prevIndex + 1) % images.length);
-      }, 5000)
-    );
+    // Set up the timer
+    const intervalId = setInterval(() => {
+      setIndex((prevIndex) => (prevIndex + 1) % images.length);
+    }, 5000);
 
     // Clean up the timer when the component unmounts
     return () => {
-      clearInterval(timer);
+      clearInterval(intervalId);
     };
-  }, []);
+  }, [images.length]);
 
   const handleDotClick = (i) => {
     setIndex(i);
