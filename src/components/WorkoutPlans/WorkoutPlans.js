@@ -6,9 +6,11 @@ import toast from "react-hot-toast";
 import WorkoutDelete from "../WorkoutDelete/WorkoutDelete";
 import ExerciseModal from "../ExerciseModal/ExerciseModal";
 import "./WorkoutPlans.scss";
+import { BASE_URL } from "../../utils/api-utils";
+
+const baseUrl = BASE_URL;
 
 function WorkoutPlans({ userInfo }) {
-  const baseUrl = "http://localhost:8080";
   const workoutsUrl = `${baseUrl}/plans`;
   const navigate = useNavigate();
   const [workouts, setWorkouts] = useState([]);

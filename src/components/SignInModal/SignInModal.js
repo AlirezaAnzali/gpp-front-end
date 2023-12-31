@@ -4,8 +4,9 @@ import "./SignInModal.scss"
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { BASE_URL } from "../../utils/api-utils";
 
-const baseUrl = "http://localhost:8080";
+const baseUrl = BASE_URL;
 const signupUrl = `${baseUrl}/signup`;
 const loginUrl = `${baseUrl}/login`;
 

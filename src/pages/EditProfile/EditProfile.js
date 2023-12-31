@@ -3,8 +3,9 @@ import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 import "./EditProfile.scss"
+import { BASE_URL } from "../../utils/api-utils";
 
-const baseUrl = "http://localhost:8080";
+const baseUrl = BASE_URL;
 const profileUrl = `${baseUrl}/profile`;
 
 function EditProfile() {

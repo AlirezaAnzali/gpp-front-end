@@ -6,10 +6,10 @@ import ExerciseSelection from "../../components/ExerciseSelection/ExerciseSelect
 import ExerciseConfirmation from "../../components/ExerciseConfirmation/ExerciseConfirmation";
 import toast from "react-hot-toast";
 import axios from "axios";
-
 import "./WorkoutDetails.scss";
+import { BASE_URL } from "../../utils/api-utils";
 
-const baseUrl = "http://localhost:8080";
+const baseUrl = BASE_URL;
 const exercisesUrl = `${baseUrl}/exercises`;
 const workoutsUrl = `${baseUrl}/workouts`;
 

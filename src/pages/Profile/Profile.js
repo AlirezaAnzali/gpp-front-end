@@ -9,9 +9,9 @@ import NewPlan from "../../components/NewPlan/NewPlan";
 import WorkoutPlans from "../../components/WorkoutPlans/WorkoutPlans";
 import ProfileModalForm from "../../components/ProfileModalForm/ProfileModalForm";
 import ExerciseModal from "../../components/ExerciseModal/ExerciseModal";
+import { BASE_URL } from "../../utils/api-utils";
 
-
-const baseUrl = "http://localhost:8080";
+const baseUrl = BASE_URL;
 const profileUrl = `${baseUrl}/profile`;
 
 function Profile({ isLoggedIn }) {
