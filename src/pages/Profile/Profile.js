@@ -9,7 +9,6 @@ import NewPlan from "../../components/NewPlan/NewPlan";
 import WorkoutPlans from "../../components/WorkoutPlans/WorkoutPlans";
 import ProfileModalForm from "../../components/ProfileModalForm/ProfileModalForm";
 import ExerciseModal from "../../components/ExerciseModal/ExerciseModal";
-import toast from "react-hot-toast";
 import { BASE_URL } from "../../utils/api-utils";
 
 const baseUrl = BASE_URL;
@@ -21,7 +20,7 @@ function Profile({ isLoggedIn }) {
   const [userInfo, setUserInfo] = useState({});
   const [exerciseModalIsVisible, setExerciseModalIsVisible] = useState(false);
 
-  function showExerciseModalHandler(exercise) {
+  function showExerciseModalHandler() {
     setExerciseModalIsVisible(true);
   }
 
@@ -88,18 +87,15 @@ function Profile({ isLoggedIn }) {
       });
   };
 
-  useEffect(() => {
-    if (isLoading) {
-      toast("Loading, Please wait", {
-        icon: "⏳",
-        style: {
-          borderRadius: "10px",
-          background: "#4b4b4b",
-          color: "#E5E5E5",
-        },
-      });
-    }
-  }, [isLoading]);
+  
+  if (isLoading) {
+    return (
+      <div className="container">
+        <h1>LOADING...</h1>
+        <div className="loader"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="profile">

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import * as Components from "./Components";
 import "./SignInModal.scss"
 import axios from "axios";
@@ -140,18 +140,14 @@ function SignInModal({ handleCloseModal, setIsLoggedIn }) {
       });
   };
 
-  useEffect(() => {
-    if (isLoading) {
-      toast("Loading, Please wait", {
-        icon: "⏳",
-        style: {
-          borderRadius: "10px",
-          background: "#4b4b4b",
-          color: "#E5E5E5",
-        },
-      });
-    }
-  }, [isLoading]);
+  if (isLoading) {
+    return (
+      <div className="container">
+        <h1>LOADING...</h1>
+        <div className="loader"></div>
+      </div>
+    );
+  }
 
   return (
 

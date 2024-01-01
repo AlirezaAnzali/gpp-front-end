@@ -1,70 +1,52 @@
-# Getting Started with Create React App
+# GymPlanPro
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Think back to a time when you first started working out. Maybe you went to the gym and felt overwhelmed by all the equipment and unsure of what exercises to do. Or maybe you tried following a generic workout plan you found online, only to find that it didn't really work for your body type or fitness goals.
+solution?
+## GymPlanPro
+My app takes in information from the user, such as their fitness goals and how often they want to work out, and uses that information to generate a personalized workout plan. This plan is tailored specifically to the user's needs and goals and includes exercises that will help them achieve their fitness objectives. The app makes it easy for users to get started with a workout routine that is customized to their individual needs, so they can focus on getting fit and seeing results.
 
-## Available Scripts
+This is a full stack react application project using React, React-Router, Node.js, Express, and APIs.
 
-In the project directory, you can run:
+This repository contains the final product as it was submitted.
 
-### `npm start`
+## Features
+The project has the following features:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- User Profile Creation
+- Customizable Workout Plans
+- Progress Tracking
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Installation
 
-### `npm test`
+Clone both [client side](https://github.com/AlirezaAnzali/gpp-front-end)  and [server side](https://github.com/AlirezaAnzali/gpp-back-end) repos.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Setup
 
-### `npm run build`
+### server side:
+1. You will need to have Node.js installed on your local machine.
+2. Install dependencies: Navigate to the cloned server side repository folder and install the necessary dependencies using npm install command in your terminal. This will install all the required packages specified in the package.json file:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+    $ npm install
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3. Run the server by following command:
 
-### `npm run eject`
+    $ node server.js
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### client side:
+1. Install dependencies: Navigate to the cloned client side repository folder and install the necessary dependencies using npm install command in your terminal. This will install all the required packages specified in the package.json file:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+    $ npm install
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+2. Run the client side by following command:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+    $ npm start
+    
+After running the npm start command in the client side folder, the React development server will start up and you should be able to view the application in your browser.
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Preview
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+![GymPlanPro Preview](GPP.gif)
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Open project and resize browser to see responsiveness across mobile, tablet, and desktop settings.

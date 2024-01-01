@@ -69,7 +69,7 @@ function WorkoutDetails() {
       .then((response) => {
         const updatedWorkout = response.data.workoutPlan;
         setWorkout(updatedWorkout); // Update the component state
-        toast.error(response.data.message, {
+        toast.success(response.data.message, {
           style: {
             borderRadius: "10px",
             background: "#4b4b4b",
