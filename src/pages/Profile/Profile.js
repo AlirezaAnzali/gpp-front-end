@@ -90,8 +90,8 @@ function Profile({ isLoggedIn }) {
   
   if (isLoading) {
     return (
-      <div className="container">
-        <h1>LOADING...</h1>
+      <div className="loading-container">
+        <h1 className="loading-title">LOADING...</h1>
         <div className="loader"></div>
       </div>
     );
